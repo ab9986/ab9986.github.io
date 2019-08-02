@@ -9,7 +9,7 @@ body {
     min-width: 780px;
     max-width: 1260px;   
     word-wrap: break-word;
-    word-break: break-all;        
+    word-break: normal;         
 }
 body.mobile{
     border: 1px solid LightGrey;
@@ -17,7 +17,7 @@ body.mobile{
     width: 90%;
     min-width:0px; 
     word-wrap: break-word;
-    word-break: break-all;    
+    word-break: normal;    
 }
 
 H1 {
