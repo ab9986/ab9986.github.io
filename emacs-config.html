@@ -1,0 +1,1338 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh-CN" xml:lang="zh-CN">
+<head>
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>emacs配置</title>
+<meta name="generator" content="Org mode" />
+<link rel="stylesheet" type="text/css" href="./css/org-blog.css" />
+<script type="text/javascript">
+function mobilecss()
+{if (/mobile/i.test(navigator.userAgent) || /android/i.test(navigator.userAgent)) document.body.classList.add('mobile');}
+window.onload=mobilecss;</script>
+</head>
+<body>
+<div id="org-div-home-and-up">
+ <a accesskey="h" href="index.html"> UP </a>
+ |
+ <a accesskey="H" href="index.html"> HOME </a>
+</div><div id="content">
+<h1 class="title">emacs配置</h1>
+<div id="table-of-contents">
+<h2>&#30446;&#24405;</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="#orgb74c621">初始化</a></li>
+<li><a href="#org7ac5dad">elpa配置</a></li>
+<li><a href="#orgf60cd68">初始化常用package</a></li>
+<li><a href="#orgdd24f2e">编码格式</a></li>
+<li><a href="#orgcd8ef9f">窗体配置</a></li>
+<li><a href="#org51fc803">编程配置</a></li>
+<li><a href="#org9ab58f3">翻译配置</a></li>
+<li><a href="#orgad1e073">helm配置</a></li>
+<li><a href="#org2c4e9fa">org-mode配置</a></li>
+<li><a href="#org8e51ff5">主题</a></li>
+<li><a href="#org214f688">自定义主题</a></li>
+<li><a href="#org2f1758b">输入法</a></li>
+<li><a href="#org647ee87">历史配置</a></li>
+<li><a href="#org154baeb">自定义脚本</a></li>
+<li><a href="#orgf0488dc">结尾</a></li>
+</ul>
+</div>
+</div>
+<div id="outline-container-orgb74c621" class="outline-2">
+<h2 id="orgb74c621">初始化</h2>
+<div class="outline-text-2" id="text-orgb74c621">
+</div>
+<div id="outline-container-org5d4380e" class="outline-3">
+<h3 id="org5d4380e">支持最小版本25.1</h3>
+<div class="outline-text-3" id="text-org5d4380e">
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">(<span style="color: #3a81c3; font-weight: bold;">let</span> ((minver <span style="color: #2d9574;">"25.1"</span>))
+  (<span style="color: #3a81c3; font-weight: bold;">when</span> (version&lt;= emacs-version minver)
+    (<span style="color: #dc752f; background-color: #fbf8ef;">error</span> <span style="color: #2d9574;">"Your Emacs is old -- this config requires v%s or higher"</span>
+           minver)))
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-orgc8f24f9" class="outline-3">
+<h3 id="orgc8f24f9">初始化内存</h3>
+<div class="outline-text-3" id="text-orgc8f24f9">
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">(<span style="color: #3a81c3; font-weight: bold;">setq</span> normal-gc-cons-threshold (* 500 1024 1024))
+(<span style="color: #3a81c3; font-weight: bold;">let</span> ((init-gc-cons-threshold most-positive-fixnum))
+  (<span style="color: #3a81c3; font-weight: bold;">setq</span> gc-cons-threshold init-gc-cons-threshold)
+  (add-hook 'after-init-hook
+            (<span style="color: #3a81c3; font-weight: bold;">lambda</span> ()
+              (<span style="color: #3a81c3; font-weight: bold;">setq</span> gc-cons-threshold normal-gc-cons-threshold))))
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgf0730a0" class="outline-3">
+<h3 id="orgf0730a0">ab9986目录配置</h3>
+<div class="outline-text-3" id="text-orgf0730a0">
+<div class="org-src-container">
+<pre class="src src-emacs-lisp"><span style="color: #2aa1ae; background-color: #ecf3ec;">;; </span><span style="color: #2aa1ae; background-color: #ecf3ec;">&#37197;&#32622;ab9986&#25152;&#22312;&#25991;&#20214;&#22841;&#36335;&#24452;</span>
+(<span style="color: #3a81c3; font-weight: bold;">setq</span> ab9986-first-dir (<span style="color: #3a81c3; font-weight: bold;">if</span> (eq system-type 'windows-nt)
+                           (concat (substring (getenv <span style="color: #2d9574;">"Home"</span>)
+                                              0
+                                              2)
+                                   <span style="color: #2d9574;">"/"</span>)
+                         <span style="color: #2d9574;">"~/"</span>))
+<span style="color: #2aa1ae; background-color: #ecf3ec;">;;</span><span style="color: #2aa1ae; background-color: #ecf3ec;">&#24180;&#20221;</span>
+(<span style="color: #3a81c3; font-weight: bold;">setq</span> ab9986-year (format-time-string <span style="color: #2d9574;">"%Y/"</span>))
+
+<span style="color: #2aa1ae; background-color: #ecf3ec;">;;</span><span style="color: #2aa1ae; background-color: #ecf3ec;">&#35774;&#32622;emacs&#40664;&#35748;&#25171;&#24320;&#36335;&#24452;</span>
+(<span style="color: #3a81c3; font-weight: bold;">setq</span> default-directory <span style="color: #2d9574;">"~/note/"</span>)
+(<span style="color: #3a81c3; font-weight: bold;">setq</span> ab9986-default-directory <span style="color: #2d9574;">"~/note/"</span>)
+<span style="color: #2aa1ae; background-color: #ecf3ec;">;;</span><span style="color: #2aa1ae; background-color: #ecf3ec;">tommy&#24037;&#20316;&#30446;&#24405;</span>
+(<span style="color: #3a81c3; font-weight: bold;">setq</span> ab9986-tommy-desktop-path <span style="color: #2d9574;">"ab9986/desktop/tommy/"</span>)
+<span style="color: #2aa1ae; background-color: #ecf3ec;">;; </span><span style="color: #2aa1ae; background-color: #ecf3ec;">ab9986-tommyjob</span>
+(<span style="color: #3a81c3; font-weight: bold;">setq</span> ab9986-tommyjob-buffername <span style="color: #2d9574;">"tommyjob.org.cpt"</span>)
+(<span style="color: #3a81c3; font-weight: bold;">setq</span> ab9986-tommyjob (concat ab9986-default-directory <span style="color: #2d9574;">"tommy/"</span>
+                              ab9986-tommyjob-buffername))
+<span style="color: #2aa1ae; background-color: #ecf3ec;">;;</span><span style="color: #2aa1ae; background-color: #ecf3ec;">blog&#37197;&#32622;</span>
+(<span style="color: #3a81c3; font-weight: bold;">setq</span> ab9986-tommyblog-buffername <span style="color: #2d9574;">"blog.org"</span>)
+(<span style="color: #3a81c3; font-weight: bold;">setq</span> ab9986-tommyblog (concat ab9986-default-directory <span style="color: #2d9574;">"blog/"</span> ab9986-tommyblog-buffername))
+<span style="color: #2aa1ae; background-color: #ecf3ec;">;;</span><span style="color: #2aa1ae; background-color: #ecf3ec;">&#21326;&#28070;&#24037;&#20316;&#30446;&#24405;</span>
+(<span style="color: #3a81c3; font-weight: bold;">setq</span> ab9986-crb-desktop-path <span style="color: #2d9574;">"crbworkdata/&#39033;&#30446;&#31649;&#29702;/&#37325;&#35201;&#20107;&#39033;/"</span>)
+(<span style="color: #3a81c3; font-weight: bold;">setq</span> ab9986-crbjob-buffername <span style="color: #2d9574;">"crbjob.org"</span>)
+(<span style="color: #3a81c3; font-weight: bold;">setq</span> ab9986-crbjob (concat ab9986-default-directory <span style="color: #2d9574;">"crbwork/"</span>
+                            ab9986-crbjob-buffername))
+</pre>
+</div>
+</div>
+</div>
+</div>
+<div id="outline-container-org7ac5dad" class="outline-2">
+<h2 id="org7ac5dad">elpa配置</h2>
+<div class="outline-text-2" id="text-org7ac5dad">
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">(<span style="color: #3a81c3; font-weight: bold;">require</span> '<span style="color: #4e3163;">package</span>)
+(<span style="color: #3a81c3; font-weight: bold;">let</span> ((versioned-package-dir (expand-file-name (format <span style="color: #2d9574;">"elpa-%s.%s"</span> emacs-major-version emacs-minor-version)
+                                               user-emacs-directory)))
+  (<span style="color: #3a81c3; font-weight: bold;">setq</span> package-user-dir versioned-package-dir))
+
+(<span style="color: #3a81c3; font-weight: bold;">setq</span> package-archives '((<span style="color: #2d9574;">"gnu"</span> . <span style="color: #2d9574;">"http://mirrors.tuna.tsinghua.edu.cn/elpa/gnu/"</span>)
+                         (<span style="color: #2d9574;">"melpa"</span> . <span style="color: #2d9574;">"http://mirrors.tuna.tsinghua.edu.cn/elpa/melpa/"</span>)
+                         (<span style="color: #2d9574;">"org"</span> . <span style="color: #2d9574;">"http://mirrors.tuna.tsinghua.edu.cn/elpa/org/"</span>)))
+(<span style="color: #3a81c3; font-weight: bold;">require</span> '<span style="color: #4e3163;">cl-lib</span>)
+
+(<span style="color: #3a81c3; font-weight: bold;">defun</span> <span style="color: #6c3163; font-weight: bold;">require-package</span> (package <span style="color: #ba2f59; font-weight: bold;">&amp;optional</span> min-version no-refresh)
+  <span style="color: #da8b55;">"Install given PACKAGE, optionally requiring MIN-VERSION.</span>
+<span style="color: #da8b55;">If NO-REFRESH is non-nil, the available package lists will not be</span>
+<span style="color: #da8b55;">re-downloaded in order to locate PACKAGE."</span>
+  (<span style="color: #3a81c3; font-weight: bold;">when</span> (not (package-installed-p package min-version))
+    (<span style="color: #3a81c3; font-weight: bold;">let*</span> ((known (cdr (assoc package package-archive-contents)))
+           (versions (mapcar #'package-desc-version known)))
+      (<span style="color: #3a81c3; font-weight: bold;">if</span> (cl-find-if (<span style="color: #3a81c3; font-weight: bold;">lambda</span> (v)
+                        (version-list-&lt;= min-version v))
+                      versions)
+          (package-install package)
+        (<span style="color: #3a81c3; font-weight: bold;">if</span> no-refresh
+            (<span style="color: #dc752f; background-color: #fbf8ef;">error</span> <span style="color: #2d9574;">"No version of %s &gt;= %S is available"</span>
+                   package min-version)
+          (package-refresh-contents)
+          (require-package package min-version t))))))
+
+(<span style="color: #3a81c3; font-weight: bold;">defun</span> <span style="color: #6c3163; font-weight: bold;">maybe-require-package</span> (package <span style="color: #ba2f59; font-weight: bold;">&amp;optional</span> min-version no-refresh)
+  <span style="color: #da8b55;">"Try to install PACKAGE, and return non-nil if successful.</span>
+<span style="color: #da8b55;">In the event of failure, return nil and print a warning message.</span>
+<span style="color: #da8b55;">Optionally require MIN-VERSION.  If NO-REFRESH is non-nil, the</span>
+<span style="color: #da8b55;">available package lists will not be re-downloaded in order to</span>
+<span style="color: #da8b55;">locate PACKAGE."</span>
+  (<span style="color: #3a81c3; font-weight: bold;">condition-case</span> err
+      (require-package package min-version no-refresh)
+    (<span style="color: #dc752f; background-color: #fbf8ef;">error</span> (message <span style="color: #2d9574;">"Couldn't install optional package `</span><span style="color: #4e3163;">%s</span><span style="color: #2d9574;">': %S"</span>
+                    package err)
+           nil)))
+(<span style="color: #3a81c3; font-weight: bold;">setq</span> package-enable-at-startup nil)
+(package-initialize)
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgf60cd68" class="outline-2">
+<h2 id="orgf60cd68">初始化常用package</h2>
+<div class="outline-text-2" id="text-orgf60cd68">
+</div>
+<div id="outline-container-org67f4928" class="outline-3">
+<h3 id="org67f4928">文件操作</h3>
+<div class="outline-text-3" id="text-org67f4928">
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">(require-package 'f)
+(<span style="color: #3a81c3; font-weight: bold;">require</span> '<span style="color: #4e3163;">f</span>)
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-orgebdf1da" class="outline-3">
+<h3 id="orgebdf1da">字符串操作</h3>
+<div class="outline-text-3" id="text-orgebdf1da">
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">(require-package 's)
+(<span style="color: #3a81c3; font-weight: bold;">require</span> '<span style="color: #4e3163;">s</span>)
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgcf43f91" class="outline-3">
+<h3 id="orgcf43f91">写作</h3>
+<div class="outline-text-3" id="text-orgcf43f91">
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">(require-package 'writeroom-mode)
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-org2101d83" class="outline-3">
+<h3 id="org2101d83">graphviz</h3>
+<div class="outline-text-3" id="text-org2101d83">
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">(require-package 'graphviz-dot-mode)
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-org5b82fc2" class="outline-3">
+<h3 id="org5b82fc2">htmlize</h3>
+<div class="outline-text-3" id="text-org5b82fc2">
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">(require-package 'htmlize)
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org7e36d16" class="outline-3">
+<h3 id="org7e36d16">dsvn</h3>
+<div class="outline-text-3" id="text-org7e36d16">
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">(require-package 'dsvn)
+(<span style="color: #3a81c3; font-weight: bold;">require</span> '<span style="color: #4e3163;">dsvn</span>)
+</pre>
+</div>
+</div>
+</div>
+</div>
+
+
+<div id="outline-container-orgdd24f2e" class="outline-2">
+<h2 id="orgdd24f2e">编码格式</h2>
+<div class="outline-text-2" id="text-orgdd24f2e">
+<p>
+自动侦测编码格式<br />
+</p>
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">(<span style="color: #3a81c3; font-weight: bold;">require</span> '<span style="color: #4e3163;">unicad</span>)
+</pre>
+</div>
+</div>
+</div>
+
+
+<div id="outline-container-orgcd8ef9f" class="outline-2">
+<h2 id="orgcd8ef9f">窗体配置</h2>
+<div class="outline-text-2" id="text-orgcd8ef9f">
+</div>
+<div id="outline-container-org433c241" class="outline-3">
+<h3 id="org433c241">窗体样式</h3>
+<div class="outline-text-3" id="text-org433c241">
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">(<span style="color: #3a81c3; font-weight: bold;">when</span> (fboundp 'tool-bar-mode)
+  (tool-bar-mode -1))
+(<span style="color: #3a81c3; font-weight: bold;">when</span> (fboundp 'set-scroll-bar-mode)
+  (set-scroll-bar-mode nil))
+(<span style="color: #3a81c3; font-weight: bold;">when</span> (fboundp 'menu-bar-mode)
+  (menu-bar-mode -1))
+
+(<span style="color: #3a81c3; font-weight: bold;">let</span> ((no-border '(internal-border-width . 0)))
+  (add-to-list 'default-frame-alist no-border)
+  (add-to-list 'initial-frame-alist no-border))
+
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-org6e9ce0c" class="outline-3">
+<h3 id="org6e9ce0c">窗体名称</h3>
+<div class="outline-text-3" id="text-org6e9ce0c">
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">(<span style="color: #3a81c3; font-weight: bold;">setq</span> frame-title-format '((<span style="color: #3a81c3;">:eval</span> (<span style="color: #3a81c3; font-weight: bold;">if</span> (buffer-file-name)
+                                      (abbreviate-file-name (buffer-file-name))
+                                    <span style="color: #2d9574;">"%b"</span>))))
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-orgea24b3d" class="outline-3">
+<h3 id="orgea24b3d">字体配置</h3>
+<div class="outline-text-3" id="text-orgea24b3d">
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">(require-package 'font-utils)
+(<span style="color: #3a81c3; font-weight: bold;">when</span> (font-utils-exists-p <span style="color: #2d9574;">"YaHei Consolas Hybrid"</span>)
+  (<span style="color: #3a81c3; font-weight: bold;">progn</span>
+    (add-to-list 'default-frame-alist
+                 '(font . <span style="color: #2d9574;">"YaHei Consolas Hybrid-12.0"</span>))
+    (set-face-attribute 'default t <span style="color: #3a81c3;">:font</span> <span style="color: #2d9574;">"YaHei Consolas Hybrid-12.0"</span>)))
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-orgde6fc99" class="outline-3">
+<h3 id="orgde6fc99">设置换行符和高亮光标的当前行</h3>
+<div class="outline-text-3" id="text-orgde6fc99">
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">(<span style="color: #3a81c3; font-weight: bold;">when</span> (display-graphic-p)
+  (<span style="color: #3a81c3; font-weight: bold;">progn</span>
+    <span style="color: #2aa1ae; background-color: #ecf3ec;">;; </span><span style="color: #2aa1ae; background-color: #ecf3ec;">&#39640;&#20142;&#20809;&#26631;&#30340;&#24403;&#21069;&#34892;</span>
+    (global-hl-line-mode 1)
+    <span style="color: #2aa1ae; background-color: #ecf3ec;">;;</span><span style="color: #2aa1ae; background-color: #ecf3ec;">&#35774;&#32622;&#25442;&#34892;&#30340;&#22270;&#26631;</span>
+    (define-fringe-bitmap 'right-curly-arrow
+      [#b111110000 #b000001000 #b000001000 #b000001000
+                   #b000001000 #b000001000 #b000001000 #b000001000
+                   #b000001000 #b001001000 #b011001000 #b111110000
+                   #b011000000 #b001000000])
+    (define-fringe-bitmap 'left-curly-arrow
+      [#b000011111 #b000100000 #b000100000 #b000100000
+                   #b000100000 #b000100000 #b000100000 #b000100000
+                   #b000100000 #b000100100 #b000100110 #b000011111
+                   #b000000110 #b000000100])))
+</pre>
+</div>
+</div>
+<div id="outline-container-orgb02b3de" class="outline-4">
+<h4 id="orgb02b3de">yes和no命令简化</h4>
+<div class="outline-text-4" id="text-orgb02b3de">
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">(<span style="color: #3a81c3; font-weight: bold;">defalias</span> '<span style="color: #6c3163; font-weight: bold;">yes-or-no-p</span> 'y-or-n-p)
+</pre>
+</div>
+</div>
+</div>
+</div>
+<div id="outline-container-org3fcef7b" class="outline-3">
+<h3 id="org3fcef7b">Tab配置</h3>
+<div class="outline-text-3" id="text-org3fcef7b">
+<div class="org-src-container">
+<pre class="src src-emacs-lisp"><span style="color: #2aa1ae; background-color: #ecf3ec;">;;</span><span style="color: #2aa1ae; background-color: #ecf3ec;">&#21435;&#38500;TAB</span>
+(<span style="color: #3a81c3; font-weight: bold;">setq-default</span> indent-tabs-mode nil)
+</pre>
+</div>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org51fc803" class="outline-2">
+<h2 id="org51fc803">编程配置</h2>
+<div class="outline-text-2" id="text-org51fc803">
+</div>
+<div id="outline-container-org4ad35ed" class="outline-3">
+<h3 id="org4ad35ed">elisp代码格式化</h3>
+<div class="outline-text-3" id="text-org4ad35ed">
+<div class="org-src-container">
+<pre class="src src-emacs-lisp"><span style="color: #2aa1ae; background-color: #ecf3ec;">;;</span><span style="color: #2aa1ae; background-color: #ecf3ec;">&#26684;&#24335;&#21270;elisp&#20195;&#30721;&#65292;&#21487;&#20197;&#20351;&#29992;&#21629;&#20196;srefactor-lisp-format-buffer</span>
+(require-package 'srefactor)
+(<span style="color: #3a81c3; font-weight: bold;">require</span> '<span style="color: #4e3163;">srefactor-lisp</span>)
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-orga5f5419" class="outline-3">
+<h3 id="orga5f5419">代码折叠</h3>
+<div class="outline-text-3" id="text-orga5f5419">
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">(require-package 'origami)
+<span style="color: #2aa1ae; background-color: #ecf3ec;">;;</span><span style="color: #2aa1ae; background-color: #ecf3ec;">&#34917;&#20805;&#24555;&#25463;&#38190;</span>
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-org9bd65d1" class="outline-3">
+<h3 id="org9bd65d1">高亮括号</h3>
+<div class="outline-text-3" id="text-org9bd65d1">
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">(show-paren-mode 1)
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-orga94eba9" class="outline-3">
+<h3 id="orga94eba9">其他</h3>
+<div class="outline-text-3" id="text-orga94eba9">
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">(require-package 'company-quickhelp)
+(require-package 'elisp-slime-nav)
+(require-package 'smartparens)
+<span style="color: #2aa1ae; background-color: #ecf3ec;">;; </span><span style="color: #2aa1ae; background-color: #ecf3ec;">&#29992;company-mode</span>
+(<span style="color: #3a81c3; font-weight: bold;">dolist</span> (hook '(emacs-lisp-mode-hook ielm-mode-hook))
+  (add-hook hook
+            (<span style="color: #3a81c3; font-weight: bold;">lambda</span> ()
+              (smartparens-mode)
+              (company-mode)
+              (company-quickhelp-mode)
+              (elisp-slime-nav-mode))))
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-org5907896" class="outline-3">
+<h3 id="org5907896">字符串匹配</h3>
+<div class="outline-text-3" id="text-org5907896">
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">(<span style="color: #3a81c3; font-weight: bold;">require</span> '<span style="color: #4e3163;">lazy-search</span>)
+(global-set-key (kbd <span style="color: #2d9574;">"C-n"</span>)
+                'lazy-search)
+(require-package 'anzu)
+(global-anzu-mode +1)
+(global-set-key (kbd <span style="color: #2d9574;">"C-r"</span>)
+                'anzu-query-replace)
+
+</pre>
+</div>
+</div>
+</div>
+
+
+<div id="outline-container-orgfbf956c" class="outline-3">
+<h3 id="orgfbf956c">rg搜索</h3>
+<div class="outline-text-3" id="text-orgfbf956c">
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">(require-package 'deadgrep)
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgccee022" class="outline-3">
+<h3 id="orgccee022">代码选中</h3>
+<div class="outline-text-3" id="text-orgccee022">
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">(require-package 'expand-region)
+(global-set-key (kbd <span style="color: #2d9574;">"C-="</span>)
+                'er/expand-region)
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org447a658" class="outline-3">
+<h3 id="org447a658">fd搜索</h3>
+<div class="outline-text-3" id="text-org447a658">
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">(<span style="color: #3a81c3; font-weight: bold;">require</span> '<span style="color: #4e3163;">deadfd</span>)
+</pre>
+</div>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org9ab58f3" class="outline-2">
+<h2 id="org9ab58f3">翻译配置</h2>
+<div class="outline-text-2" id="text-org9ab58f3">
+</div>
+<div id="outline-container-orga00b17b" class="outline-3">
+<h3 id="orga00b17b">词典</h3>
+<div class="outline-text-3" id="text-orga00b17b">
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">(require-package 'bing-dict)
+(global-set-key (kbd <span style="color: #2d9574;">"C-c o"</span>)
+                'bing-dict-brief)
+(<span style="color: #3a81c3; font-weight: bold;">setq</span> bing-dict-add-to-kill-ring t)
+(<span style="color: #3a81c3; font-weight: bold;">setq</span> bing-dict-vocabulary-save t)
+(<span style="color: #3a81c3; font-weight: bold;">setq</span> bing-dict-vocabulary-file (concat ab9986-default-directory <span style="color: #2d9574;">"/note/tommy/vocabulary.org"</span>))
+</pre>
+</div>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgad1e073" class="outline-2">
+<h2 id="orgad1e073">helm配置</h2>
+<div class="outline-text-2" id="text-orgad1e073">
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">(require-package 'helm)
+<span style="color: #2aa1ae; background-color: #ecf3ec;">;;</span><span style="color: #2aa1ae; background-color: #ecf3ec;">(require-package 'helm-org-rifle)</span>
+<span style="color: #2aa1ae; background-color: #ecf3ec;">;;</span><span style="color: #2aa1ae; background-color: #ecf3ec;">(require-package 'helm-ag)</span>
+<span style="color: #2aa1ae; background-color: #ecf3ec;">;;</span><span style="color: #2aa1ae; background-color: #ecf3ec;">(global-set-key (kbd "C-x C-a") 'helm-org-rifle)</span>
+
+(global-set-key (kbd <span style="color: #2d9574;">"M-x"</span>)
+                'helm-M-x)
+(global-set-key (kbd <span style="color: #2d9574;">"C-x C-m"</span>)
+                'helm-M-x)
+(global-set-key (kbd <span style="color: #2d9574;">"M-y"</span>)
+                'helm-show-kill-ring)
+(global-set-key (kbd <span style="color: #2d9574;">"C-x b"</span>)
+                'helm-mini)
+(global-set-key (kbd <span style="color: #2d9574;">"C-x C-b"</span>)
+                'helm-buffers-list)
+(global-set-key (kbd <span style="color: #2d9574;">"C-x C-f"</span>)
+                'helm-find-files)
+(global-set-key (kbd <span style="color: #2d9574;">"C-h f"</span>)
+                'helm-apropos)
+(global-set-key (kbd <span style="color: #2d9574;">"C-h r"</span>)
+                'helm-info-emacs)
+(global-set-key (kbd <span style="color: #2d9574;">"C-h C-l"</span>)
+                'helm-locate-library)
+(global-set-key (kbd <span style="color: #2d9574;">"C-s"</span>)
+                'helm-occur)
+(global-set-key (kbd <span style="color: #2d9574;">"C-c h h"</span>)
+                'helm-comint-input-ring) <span style="color: #2aa1ae; background-color: #ecf3ec;">;; </span><span style="color: #2aa1ae; background-color: #ecf3ec;">search history for shell</span>
+(global-set-key (kbd <span style="color: #2d9574;">"M-s"</span>)
+                'helm-org-in-buffer-headings)
+(<span style="color: #3a81c3; font-weight: bold;">setq</span> helm-ff-auto-update-initial-value t)
+<span style="color: #2aa1ae; background-color: #ecf3ec;">;;</span><span style="color: #2aa1ae; background-color: #ecf3ec;">&#37197;&#32622;helm-org-in-buffer-headings&#26174;&#31034;&#23436;&#25972;&#36335;&#24452;</span>
+(<span style="color: #3a81c3; font-weight: bold;">setq</span> helm-org-format-outline-path t)
+(helm-mode 1)
+(<span style="color: #3a81c3; font-weight: bold;">require</span> '<span style="color: #4e3163;">helm-find</span>)
+(<span style="color: #3a81c3; font-weight: bold;">defun</span> <span style="color: #6c3163; font-weight: bold;">helm-fd</span> ()
+  (<span style="color: #3a81c3; font-weight: bold;">interactive</span>)
+  (helm <span style="color: #3a81c3;">:sources</span> (<span style="color: #3a81c3; font-weight: bold;">helm-build-async-source</span> <span style="color: #2d9574;">"fd"</span>
+                   <span style="color: #3a81c3;">:header-name</span> (<span style="color: #3a81c3; font-weight: bold;">lambda</span> (name)
+                                  (format <span style="color: #2d9574;">"%s in [%s]"</span>
+                                          name
+                                          (helm-default-directory)))<span style="color: #3a81c3;">:candidates-process</span>
+                   (<span style="color: #3a81c3; font-weight: bold;">lambda</span> ()
+                     (<span style="color: #3a81c3; font-weight: bold;">let</span> ((process-connection-type nil))
+                       (<span style="color: #3a81c3; font-weight: bold;">let</span> ((proc (apply #'start-process
+                                          <span style="color: #2d9574;">"helm-fd"</span>
+                                          helm-buffer
+                                          <span style="color: #2d9574;">"fd"</span>
+                                          (split-string helm-pattern))))
+                         (set-process-sentinel proc #'ignore)
+                         proc)))
+                   <span style="color: #3a81c3;">:persistent-action</span> 'helm-ff-kill-or-find-buffer-fname
+                   <span style="color: #3a81c3;">:action</span> 'org-open-file-with-system
+                   <span style="color: #3a81c3;">:help-message</span> 'helm-generic-file-help-message
+                   <span style="color: #3a81c3;">:keymap</span> helm-find-map
+                   <span style="color: #3a81c3;">:candidate-number-limit</span> 9999)<span style="color: #3a81c3;">:buffer</span>
+                   <span style="color: #2d9574;">"*helm fd*"</span>))
+</pre>
+</div>
+</div>
+</div>
+
+
+<div id="outline-container-org2c4e9fa" class="outline-2">
+<h2 id="org2c4e9fa">org-mode配置</h2>
+<div class="outline-text-2" id="text-org2c4e9fa">
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">(<span style="color: #3a81c3; font-weight: bold;">require</span> '<span style="color: #4e3163;">org</span>)
+</pre>
+</div>
+</div>
+<div id="outline-container-org7a64dfc" class="outline-3">
+<h3 id="org7a64dfc">配置org的路径变量</h3>
+<div class="outline-text-3" id="text-org7a64dfc">
+<div class="org-src-container">
+<pre class="src src-emacs-lisp"><span style="color: #2aa1ae; background-color: #ecf3ec;">;;</span><span style="color: #2aa1ae; background-color: #ecf3ec;">&#36319;&#36827;current-buffer&#30340;buffername&#33719;&#21462;&#38468;&#20214;&#36335;&#24452;</span>
+(<span style="color: #3a81c3; font-weight: bold;">defun</span> <span style="color: #6c3163; font-weight: bold;">ab9986-get-org-attach-dir</span> ()
+  <span style="color: #da8b55;">"get org attach by buffername of current buffer"</span>
+  (<span style="color: #3a81c3; font-weight: bold;">let</span> ((current-buffer-name (buffer-name (current-buffer))))
+    (<span style="color: #3a81c3; font-weight: bold;">cond</span>
+     ((string= current-buffer-name ab9986-tommyjob-buffername)
+      (concat ab9986-first-dir ab9986-tommy-desktop-path))
+     ((string= current-buffer-name ab9986-crbjob-buffername)
+      (concat ab9986-first-dir ab9986-crb-desktop-path))
+     (t (<span style="color: #dc752f; background-color: #fbf8ef;">error</span> <span style="color: #2d9574;">"not support buffer %s"</span> current-buffer-name)))))
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-org20b20ae" class="outline-3">
+<h3 id="org20b20ae">org链接打开配置</h3>
+<div class="outline-text-3" id="text-org20b20ae">
+<div class="org-src-container">
+<pre class="src src-emacs-lisp"><span style="color: #2aa1ae; background-color: #ecf3ec;">;;</span><span style="color: #2aa1ae; background-color: #ecf3ec;">&#35774;&#32622;&#25152;&#26377;&#30340;.org &#25171;&#24320;&#40664;&#35748;&#20026; utf-8</span>
+(modify-coding-system-alist 'file <span style="color: #2d9574;">"\\.org\\'"</span>
+                            'utf-8)
+(<span style="color: #3a81c3; font-weight: bold;">when</span> (<span style="color: #3a81c3; font-weight: bold;">or</span> (eq system-type 'cygwin)
+          (eq system-type 'windows-nt))
+  <span style="color: #2aa1ae; background-color: #ecf3ec;">;;</span><span style="color: #2aa1ae; background-color: #ecf3ec;">org-mode&#26102;&#25171;&#24320;&#25991;&#20214;&#26102;&#40664;&#35748;win&#31995;&#32479;&#25171;&#24320;</span>
+  (<span style="color: #3a81c3; font-weight: bold;">setq</span> org-file-apps '()))
+(add-to-list 'org-file-apps
+             '(<span style="color: #2d9574;">"\\.org\\'"</span> . emacs))
+(<span style="color: #3a81c3; font-weight: bold;">defun</span> <span style="color: #6c3163; font-weight: bold;">org-ab9986-default-apps</span> ()
+  <span style="color: #da8b55;">"Return the default applications for this operating system."</span>
+  (<span style="color: #3a81c3; font-weight: bold;">cond</span>
+   ((eq system-type 'darwin) org-file-apps-defaults-macosx)
+   ((<span style="color: #3a81c3; font-weight: bold;">or</span> (eq system-type 'windows-nt)
+        (eq system-type 'cygwin)) <span style="color: #dc752f; background-color: #fbf8ef;">org-file-apps-defaults-windowsnt)</span>
+   (t org-file-apps-defaults-gnu)))
+(<span style="color: #3a81c3; font-weight: bold;">setq</span> org-default-apps 'org-ab9986-default-apps)
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-org297adf6" class="outline-3">
+<h3 id="org297adf6">org捕捉配置</h3>
+<div class="outline-text-3" id="text-org297adf6">
+<div class="org-src-container">
+<pre class="src src-emacs-lisp"><span style="color: #2aa1ae; background-color: #ecf3ec;">;; </span><span style="color: #2aa1ae; background-color: #ecf3ec;">&#33258;&#21160;&#25429;&#25417;&#20219;&#21153;</span>
+(global-set-key (kbd <span style="color: #2d9574;">"C-c c"</span>)
+                'org-capture)
+(<span style="color: #3a81c3; font-weight: bold;">defun</span> <span style="color: #6c3163; font-weight: bold;">ab9986-tommy-template</span> ()
+  (<span style="color: #3a81c3; font-weight: bold;">let</span> ((time-string (format-time-string <span style="color: #2d9574;">"%Y%m%d%H%M"</span>)))
+    (concat <span style="color: #2d9574;">"* TODO "</span> time-string <span style="color: #2d9574;">"-%?\n  :PROPERTIES:\n  :ATTACH_DIR: "</span>
+            <span style="color: #2d9574;">"\n  :END:\n  &#20219;&#21153;&#26085;&#26399;&#65306;%T\n"</span>)))
+(<span style="color: #3a81c3; font-weight: bold;">defun</span> <span style="color: #6c3163; font-weight: bold;">ab9986-crb-template</span> ()
+  (<span style="color: #3a81c3; font-weight: bold;">let</span> ((time-string (format-time-string <span style="color: #2d9574;">"%Y%m%d%H%M"</span>)))
+    (concat <span style="color: #2d9574;">"* TODO "</span> time-string <span style="color: #2d9574;">"-%?\n  :PROPERTIES:\n  :ATTACH_DIR: "</span>
+            <span style="color: #2d9574;">"\n  :END:\n  &#20219;&#21153;&#26085;&#26399;&#65306;%T\n"</span>)))
+(<span style="color: #3a81c3; font-weight: bold;">defun</span> <span style="color: #6c3163; font-weight: bold;">ab9986-blog-template</span> ()
+  (<span style="color: #3a81c3; font-weight: bold;">let</span> ((time-string (format-time-string <span style="color: #2d9574;">"%Y%m%d"</span>)))
+    (concat <span style="color: #2d9574;">"* "</span> time-string <span style="color: #2d9574;">"-%?\n "</span>)))
+<span style="color: #2aa1ae; background-color: #ecf3ec;">;;</span><span style="color: #2aa1ae; background-color: #ecf3ec;">:prepend t &#25918;&#22312;&#31532;&#19968;&#34892;</span>
+<span style="color: #2aa1ae; background-color: #ecf3ec;">;;</span><span style="color: #2aa1ae; background-color: #ecf3ec;">:empty-lines 1 &#25554;&#20837;&#31354;&#20108;&#34892;</span>
+<span style="color: #2aa1ae; background-color: #ecf3ec;">;;</span><span style="color: #2aa1ae; background-color: #ecf3ec;">:jump-to-captured t &#36339;&#21040;&#25554;&#20837;&#22320;&#26041;</span>
+(<span style="color: #3a81c3; font-weight: bold;">setq</span> org-capture-templates `((<span style="color: #2d9574;">"b"</span> <span style="color: #2d9574;">"blog"</span>
+                               entry
+                               (file ab9986-tommyblog)
+                               (<span style="color: #3a81c3; font-weight: bold;">function</span> ab9986-blog-template)
+                               <span style="color: #3a81c3;">:jump-to-captured</span> t
+                               <span style="color: #3a81c3;">:prepend</span> t
+                               <span style="color: #3a81c3;">:empty-lines-before</span> 1
+                               <span style="color: #3a81c3;">:empty-lines-after</span> 3)
+                              (<span style="color: #2d9574;">"c"</span> <span style="color: #2d9574;">"crbjob"</span>
+                               entry
+                               (file+headline ab9986-crbjob <span style="color: #2d9574;">"job"</span>)
+                               (<span style="color: #3a81c3; font-weight: bold;">function</span> ab9986-crb-template)
+                               <span style="color: #3a81c3;">:jump-to-captured</span> t
+                               <span style="color: #3a81c3;">:prepend</span> t
+                               <span style="color: #3a81c3;">:empty-lines-before</span> 1
+                               <span style="color: #3a81c3;">:empty-lines-after</span> 3)
+                              (<span style="color: #2d9574;">"t"</span> <span style="color: #2d9574;">"tommyjob"</span>
+                               entry
+                               (file+headline ab9986-tommyjob <span style="color: #2d9574;">"job"</span>)
+                               (<span style="color: #3a81c3; font-weight: bold;">function</span> ab9986-tommy-template)
+                               <span style="color: #3a81c3;">:jump-to-captured</span> t
+                               <span style="color: #3a81c3;">:prepend</span> t
+                               <span style="color: #3a81c3;">:empty-lines-before</span> 1
+                               <span style="color: #3a81c3;">:empty-lines-after</span> 3)))
+
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org211c66e" class="outline-3">
+<h3 id="org211c66e">org-babel配置</h3>
+<div class="outline-text-3" id="text-org211c66e">
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">(<span style="color: #3a81c3; font-weight: bold;">setq</span> org-plantuml-jar-path (concat ab9986-first-dir <span style="color: #2d9574;">"ab9986/collect/core/plantuml/plantuml.jar"</span>))
+<span style="color: #2aa1ae; background-color: #ecf3ec;">;;</span><span style="color: #2aa1ae; background-color: #ecf3ec;">c-c c-c &#20250;&#35745;&#31639;&#32467;&#26524;</span>
+(<span style="color: #3a81c3; font-weight: bold;">setq</span> org-confirm-babel-evaluate nil)
+(org-babel-do-load-languages 'org-babel-load-languages
+                             '((emacs-lisp . t)
+                               (calc . t)
+                               (plantuml . t)
+                               (dot . t)))
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-org68479a7" class="outline-3">
+<h3 id="org68479a7">org导出配置</h3>
+<div class="outline-text-3" id="text-org68479a7">
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">(<span style="color: #3a81c3; font-weight: bold;">setq</span> org-support-shift-select t)
+<span style="color: #2aa1ae; background-color: #ecf3ec;">;;</span><span style="color: #2aa1ae; background-color: #ecf3ec;">&#35774;&#32622; org&#23548;&#20986;&#40664;&#35748;&#20026;zh-CN</span>
+(<span style="color: #3a81c3; font-weight: bold;">setq</span> org-export-default-language <span style="color: #2d9574;">"zh-CN"</span>)
+
+<span style="color: #2aa1ae; background-color: #ecf3ec;">;;</span><span style="color: #2aa1ae; background-color: #ecf3ec;">&#25152;&#26377; org &#25991;&#20214;&#19981;&#36716;&#20041; _ &#23383;&#31526;</span>
+(<span style="color: #3a81c3; font-weight: bold;">setq</span> org-export-with-sub-superscripts nil)
+<span style="color: #2aa1ae; background-color: #ecf3ec;">;;</span><span style="color: #2aa1ae; background-color: #ecf3ec;">&#25152;&#26377; org &#25991;&#20214;&#19981;&#36716;&#20041;&#29305;&#27530;&#23383;&#31526;</span>
+(<span style="color: #3a81c3; font-weight: bold;">setq</span> org-export-with-special-strings nil)
+
+<span style="color: #2aa1ae; background-color: #ecf3ec;">;;</span><span style="color: #2aa1ae; background-color: #ecf3ec;">&#35774;&#32622;&#20316;&#32773;</span>
+(<span style="color: #3a81c3; font-weight: bold;">setq</span> org-export-with-author <span style="color: #2d9574;">"Tommy Zhang"</span>)
+<span style="color: #2aa1ae; background-color: #ecf3ec;">;;</span><span style="color: #2aa1ae; background-color: #ecf3ec;">&#35774;&#32622;&#20316;&#32773;&#37038;&#31665;</span>
+(<span style="color: #3a81c3; font-weight: bold;">setq</span> org-export-with-email 'ab9986@qq.com)
+<span style="color: #2aa1ae; background-color: #ecf3ec;">;;</span><span style="color: #2aa1ae; background-color: #ecf3ec;">&#20351;&#29992;&#25442;&#34892;&#31526;</span>
+(<span style="color: #3a81c3; font-weight: bold;">setq</span> org-export-preserve-breaks t)
+
+<span style="color: #2aa1ae; background-color: #ecf3ec;">;;</span>
+(<span style="color: #3a81c3; font-weight: bold;">setq-default</span> org-display-custom-times t)
+(<span style="color: #3a81c3; font-weight: bold;">setq</span> org-time-stamp-custom-formats '(<span style="color: #2d9574;">"&lt;%Y&#24180;%m&#26376;%d&#26085;&gt;"</span> . <span style="color: #2d9574;">"&lt;%Y&#24180;%m&#26376;%d&#26085; %H:%M&gt;"</span>))
+
+<span style="color: #2aa1ae; background-color: #ecf3ec;">;;</span><span style="color: #2aa1ae; background-color: #ecf3ec;">(setq ab9986-publishing-directory (concat ab9986-first-dir "ab9986/ab9986.github.io/"))</span>
+(<span style="color: #3a81c3; font-weight: bold;">setq</span> org-publish-project-alist '(
+                                  <span style="color: #2aa1ae; background-color: #ecf3ec;">;; </span><span style="color: #2aa1ae; background-color: #ecf3ec;">... add all the components here (see below)...</span>
+                                  (<span style="color: #2d9574;">"org-blogs"</span> <span style="color: #3a81c3;">:base-directory</span> <span style="color: #2d9574;">"~/note/blog/"</span>
+                                   <span style="color: #3a81c3;">:base-extension</span> <span style="color: #2d9574;">"org"</span>
+                                   <span style="color: #3a81c3;">:publishing-directory</span> <span style="color: #2d9574;">"D:/ab9986/ab9986.github.io/"</span>
+                                   <span style="color: #3a81c3;">:html-head</span> <span style="color: #2d9574;">"&lt;link rel=\"stylesheet\" type=\"text/css\" href=\"./css/org-blog.css\"/&gt;"</span>
+                                   <span style="color: #3a81c3;">:recursive</span> t
+                                   <span style="color: #3a81c3;">:publishing-function</span> org-html-publish-to-html
+                                   <span style="color: #3a81c3;">:auto-preamble</span> t
+                                   <span style="color: #3a81c3;">:timestamp</span> nil)))
+(<span style="color: #3a81c3; font-weight: bold;">require</span> '<span style="color: #4e3163;">ox-html</span>)
+(<span style="color: #3a81c3; font-weight: bold;">setq</span> org-html-style-default nil)
+(<span style="color: #3a81c3; font-weight: bold;">setq</span> org-html-scripts nil)
+(<span style="color: #3a81c3; font-weight: bold;">setq</span> org-html-mathjax-template <span style="color: #2d9574;">""</span>)
+(<span style="color: #3a81c3; font-weight: bold;">setq</span> org-html-validation-link nil) 
+</pre>
+</div>
+</div>
+</div>
+
+
+<div id="outline-container-orgee4702e" class="outline-3">
+<h3 id="orgee4702e">附件配置</h3>
+<div class="outline-text-3" id="text-orgee4702e">
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">(<span style="color: #3a81c3; font-weight: bold;">require</span> '<span style="color: #4e3163;">org-attach</span>)
+<span style="color: #2aa1ae; background-color: #ecf3ec;">;;</span><span style="color: #2aa1ae; background-color: #ecf3ec;">c-c w &#31532;&#20108;&#32423;&#26631;&#39064; </span>
+(<span style="color: #3a81c3; font-weight: bold;">setq</span> org-refile-targets '((nil <span style="color: #3a81c3;">:maxlevel</span> .
+                                2)))
+
+(<span style="color: #3a81c3; font-weight: bold;">defun</span> <span style="color: #6c3163; font-weight: bold;">ab9986-open-org-attach</span> ()
+  <span style="color: #da8b55;">"Show the attachment directory of the current task.</span>
+<span style="color: #da8b55;">This will attempt to use an external program to show the directory."</span>
+  (<span style="color: #3a81c3; font-weight: bold;">interactive</span>)
+  (<span style="color: #3a81c3; font-weight: bold;">setq</span> ab9986-cursor-position-name <span style="color: #2d9574;">"ab9986-cursor-position"</span>)
+  (bookmark-set ab9986-cursor-position-name)
+  (<span style="color: #3a81c3; font-weight: bold;">setq</span> ab9986-level (org-element-property <span style="color: #3a81c3;">:level</span> (org-element-at-point)))
+  (<span style="color: #3a81c3; font-weight: bold;">setq</span> ab9986-jump-p nil)
+  (<span style="color: #3a81c3; font-weight: bold;">setq</span> ab9986-level3-p nil)
+  (<span style="color: #3a81c3; font-weight: bold;">setq</span> ab9986-title3 nil)
+  (<span style="color: #3a81c3; font-weight: bold;">setq</span> ab9986-attach-dir3 nil)
+  (<span style="color: #3a81c3; font-weight: bold;">setq</span> ab9986-level4-p nil)
+  (<span style="color: #3a81c3; font-weight: bold;">setq</span> ab9986-title4 nil)
+  (<span style="color: #3a81c3; font-weight: bold;">setq</span> ab9986-attach-dir4 nil)
+  (<span style="color: #3a81c3; font-weight: bold;">when</span> (not ab9986-level)
+    (org-back-to-heading)
+    (<span style="color: #3a81c3; font-weight: bold;">setq</span> ab9986-jump-p t))
+  (<span style="color: #3a81c3; font-weight: bold;">setq</span> ab9986-level (org-element-property <span style="color: #3a81c3;">:level</span> (org-element-at-point)))
+  (<span style="color: #3a81c3; font-weight: bold;">when</span> (<span style="color: #3a81c3; font-weight: bold;">and</span> ab9986-level
+             (= ab9986-level 4))
+    (<span style="color: #3a81c3; font-weight: bold;">setq</span> ab9986-title4 (org-element-property <span style="color: #3a81c3;">:title</span> (org-element-at-point)))
+    (<span style="color: #3a81c3; font-weight: bold;">setq</span> ab9986-attach-dir4 (org-entry-get nil <span style="color: #2d9574;">"ATTACH_DIR"</span>))
+    (org-up-heading-safe)
+    (<span style="color: #3a81c3; font-weight: bold;">setq</span> ab9986-jump-p t)
+    (<span style="color: #3a81c3; font-weight: bold;">setq</span> ab9986-level4-p t))
+  (<span style="color: #3a81c3; font-weight: bold;">setq</span> ab9986-level (org-element-property <span style="color: #3a81c3;">:level</span> (org-element-at-point)))
+  (<span style="color: #3a81c3; font-weight: bold;">when</span> (<span style="color: #3a81c3; font-weight: bold;">and</span> ab9986-level
+             (= ab9986-level 3))
+    (<span style="color: #3a81c3; font-weight: bold;">setq</span> ab9986-title3 (org-element-property <span style="color: #3a81c3;">:title</span> (org-element-at-point)))
+    (<span style="color: #3a81c3; font-weight: bold;">setq</span> ab9986-attach-dir3 (org-entry-get nil <span style="color: #2d9574;">"ATTACH_DIR"</span>))
+    (org-up-heading-safe)
+    (<span style="color: #3a81c3; font-weight: bold;">setq</span> ab9986-jump-p t)
+    (<span style="color: #3a81c3; font-weight: bold;">setq</span> ab9986-level3-p t))
+  (<span style="color: #3a81c3; font-weight: bold;">setq</span> ab9986-level (org-element-property <span style="color: #3a81c3;">:level</span> (org-element-at-point)))
+  (<span style="color: #3a81c3; font-weight: bold;">setq</span> ab9986-title (org-element-property <span style="color: #3a81c3;">:title</span> (org-element-at-point)))
+  (<span style="color: #3a81c3; font-weight: bold;">setq</span> ab9986-attach-dir (org-entry-get nil <span style="color: #2d9574;">"ATTACH_DIR"</span>))
+  (<span style="color: #3a81c3; font-weight: bold;">when</span> (<span style="color: #3a81c3; font-weight: bold;">and</span> ab9986-level
+             ab9986-title
+             ab9986-attach-dir
+             (= ab9986-level 2))
+    (<span style="color: #3a81c3; font-weight: bold;">if</span> (string= (string-trim ab9986-attach-dir)
+                 <span style="color: #2d9574;">""</span>)
+        (<span style="color: #3a81c3; font-weight: bold;">if</span> (<span style="color: #3a81c3; font-weight: bold;">and</span> (&gt; (length ab9986-title) 4)
+                 (&gt; (string-to-number (substring ab9986-title 0 4)) 2000))
+            (<span style="color: #3a81c3; font-weight: bold;">setq</span> ab9986-attach-dir (concat (ab9986-get-org-attach-dir)
+                                            (substring ab9986-title 0 4)
+                                            <span style="color: #2d9574;">"/"</span>
+                                            ab9986-title))
+          (<span style="color: #3a81c3; font-weight: bold;">setq</span> ab9986-attach-dir (concat (ab9986-get-org-attach-dir)
+                                          ab9986-title)))
+      (<span style="color: #3a81c3; font-weight: bold;">setq</span> ab9986-attach-dir (concat (ab9986-get-org-attach-dir)
+                                      <span style="color: #2d9574;">"/"</span>
+                                      ab9986-attach-dir)))
+    (<span style="color: #3a81c3; font-weight: bold;">when</span> (<span style="color: #3a81c3; font-weight: bold;">and</span> ab9986-level3-p ab9986-title3 ab9986-attach-dir3)
+      (<span style="color: #3a81c3; font-weight: bold;">if</span> (string= (string-trim ab9986-attach-dir3)
+                   <span style="color: #2d9574;">""</span>)
+          (<span style="color: #3a81c3; font-weight: bold;">setq</span> ab9986-attach-dir (concat ab9986-attach-dir <span style="color: #2d9574;">"/"</span> ab9986-title3))
+        (<span style="color: #3a81c3; font-weight: bold;">setq</span> ab9986-attach-dir (concat (ab9986-get-org-attach-dir)
+                                        <span style="color: #2d9574;">"/"</span>
+                                        ab9986-attach-dir3))))
+    (<span style="color: #3a81c3; font-weight: bold;">when</span> (<span style="color: #3a81c3; font-weight: bold;">and</span> ab9986-level4-p ab9986-title4 ab9986-attach-dir4)
+      (<span style="color: #3a81c3; font-weight: bold;">if</span> (string= (string-trim ab9986-attach-dir4)
+                   <span style="color: #2d9574;">""</span>)
+          (<span style="color: #3a81c3; font-weight: bold;">setq</span> ab9986-attach-dir (concat ab9986-attach-dir <span style="color: #2d9574;">"/"</span> ab9986-title4))
+        (<span style="color: #3a81c3; font-weight: bold;">setq</span> ab9986-attach-dir (concat (ab9986-get-org-attach-dir)
+                                        <span style="color: #2d9574;">"/"</span>
+                                        ab9986-attach-dir4))))
+    (org-attach-check-absolute-path ab9986-attach-dir)
+    (<span style="color: #3a81c3; font-weight: bold;">if</span> (not (file-directory-p ab9986-attach-dir))
+        (make-directory ab9986-attach-dir t))
+    (<span style="color: #3a81c3; font-weight: bold;">and</span> (file-exists-p ab9986-attach-dir)
+         ab9986-attach-dir)
+    (org-open-file ab9986-attach-dir))
+  (<span style="color: #3a81c3; font-weight: bold;">when</span> ab9986-jump-p
+    (bookmark-jump ab9986-cursor-position-name))
+  (bookmark-delete ab9986-cursor-position-name)
+  (delete-dups bookmark-history))
+(global-set-key (kbd <span style="color: #2d9574;">"C-f"</span>)
+                'ab9986-open-org-attach)
+
+
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-orgdf4ce7b" class="outline-3">
+<h3 id="orgdf4ce7b">org加密</h3>
+<div class="outline-text-3" id="text-orgdf4ce7b">
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">(<span style="color: #3a81c3; font-weight: bold;">require</span> '<span style="color: #4e3163;">ps-ccrypt</span>)
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orge9ff771" class="outline-3">
+<h3 id="orge9ff771">table</h3>
+<div class="outline-text-3" id="text-orge9ff771">
+</div>
+<div id="outline-container-orgb9dee6f" class="outline-4">
+<h4 id="orgb9dee6f">查看表格折叠内容</h4>
+<div class="outline-text-4" id="text-orgb9dee6f">
+<p>
+不默认查看表格超长模式，执行org-table-follow-field-mode，开启查看表格超出字段<br />
+</p>
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">(<span style="color: #3a81c3; font-weight: bold;">require</span> '<span style="color: #4e3163;">org-table</span>)
+(<span style="color: #3a81c3; font-weight: bold;">setq</span> org-table-exit-follow-field-mode-when-leaving-table
+      nil)
+
+(<span style="color: #3a81c3; font-weight: bold;">when</span> (display-graphic-p)
+  <span style="color: #2aa1ae; background-color: #ecf3ec;">;; </span><span style="color: #2aa1ae; background-color: #ecf3ec;">&#33258;&#21160;&#25442;&#34892;&#21644;&#26597;&#30475;&#34920;&#26684;&#36229;&#38271;&#27169;&#24335;</span>
+  (add-hook 'org-mode-hook
+            (<span style="color: #3a81c3; font-weight: bold;">lambda</span> ()
+              (<span style="color: #3a81c3; font-weight: bold;">setq</span> truncate-lines nil)
+              <span style="color: #2aa1ae; background-color: #ecf3ec;">;;</span><span style="color: #2aa1ae; background-color: #ecf3ec;">(require 'org-table)</span>
+              <span style="color: #2aa1ae; background-color: #ecf3ec;">;;</span><span style="color: #2aa1ae; background-color: #ecf3ec;">(org-table-follow-field-mode t)</span>
+              )))
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-org113fce0" class="outline-4">
+<h4 id="org113fce0">离开表格自动关闭显示列内容小窗</h4>
+<div class="outline-text-4" id="text-org113fce0">
+<p>
+;;保存桌面时，将ab9986-tommyjob-buffername的buffer关闭<br />
+</p>
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">(<span style="color: #3a81c3; font-weight: bold;">defadvice</span> <span style="color: #6c3163; font-weight: bold;">org-table-follow-fields-with-editor</span>
+    (before ab9986-kill-org-table-edit-field activate)
+  (<span style="color: #3a81c3; font-weight: bold;">let</span> ((buffer (get-buffer <span style="color: #2d9574;">"*Org Table Edit Field*"</span>)))
+    (<span style="color: #3a81c3; font-weight: bold;">when</span> (<span style="color: #3a81c3; font-weight: bold;">and</span> (not (org-at-table-p))
+               buffer
+               (not (string= (buffer-name (current-buffer))
+                             <span style="color: #2d9574;">"*Org Table Edit Field*"</span>)))
+      (delete-other-windows)
+      (kill-buffer buffer))))
+</pre>
+</div>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgff95232" class="outline-3">
+<h3 id="orgff95232">导出</h3>
+<div class="outline-text-3" id="text-orgff95232">
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">(require-package 'ox-pandoc)
+</pre>
+</div>
+
+<div class="org-src-container">
+<pre class="src src-example">(defun ox-export-to-docx-and-open ()
+  "Export the current org file as a docx via markdown."
+  (interactive)
+  (let* (
+         ;; this is probably a full path
+         (current-file (buffer-file-name))
+         (basename (file-name-sans-extension current-file))
+         (docx-file (concat basename ".docx")))
+    (save-buffer)
+    (when (file-exists-p docx-file)
+      (delete-file docx-file))
+    (shell-command (format "pandoc -s  %s -o %s" current-file
+                           docx-file))
+    (org-open-file docx-file
+                   '(16))))
+
+</pre>
+</div>
+</div>
+
+<div id="outline-container-orgd437527" class="outline-4">
+<h4 id="orgd437527">导出目录</h4>
+<div class="outline-text-4" id="text-orgd437527">
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">(<span style="color: #3a81c3; font-weight: bold;">defvar</span> <span style="color: #715ab1;">org-export-directory</span> (concat ab9986-first-dir <span style="color: #2d9574;">"/ab9986/ab9986.github.io/"</span>))
+
+(<span style="color: #3a81c3; font-weight: bold;">defun</span> <span style="color: #6c3163; font-weight: bold;">org-export-output-file-name--set-directory</span> (orig-fn extension <span style="color: #ba2f59; font-weight: bold;">&amp;optional</span> subtreep pub-dir)
+  (<span style="color: #3a81c3; font-weight: bold;">setq</span> pub-dir (<span style="color: #3a81c3; font-weight: bold;">or</span> pub-dir org-export-directory))
+  (funcall orig-fn extension subtreep pub-dir))
+(advice-add 'org-export-output-file-name <span style="color: #3a81c3;">:around</span> 'org-export-output-file-name--set-directory)
+</pre>
+</div>
+</div>
+</div>
+</div>
+
+
+<div id="outline-container-orgd24ec6f" class="outline-3">
+<h3 id="orgd24ec6f">org-refile配置</h3>
+<div class="outline-text-3" id="text-orgd24ec6f">
+<p>
+调用移动heading,放在上一级首位<br />
+</p>
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">(<span style="color: #3a81c3; font-weight: bold;">setq</span> org-reverse-note-order t)
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-orga245f5a" class="outline-3">
+<h3 id="orga245f5a">android阅读配置</h3>
+</div>
+</div>
+
+
+<div id="outline-container-org8e51ff5" class="outline-2">
+<h2 id="org8e51ff5">主题</h2>
+<div class="outline-text-2" id="text-org8e51ff5">
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">(require-package 'spacemacs-theme)                       
+(load-theme 'spacemacs-light t)
+<span style="color: #2aa1ae; background-color: #ecf3ec;">;;</span><span style="color: #2aa1ae; background-color: #ecf3ec;">&#29366;&#24577;&#26639;</span>
+(require-package 'spaceline)
+(<span style="color: #3a81c3; font-weight: bold;">require</span> '<span style="color: #4e3163;">spaceline-config</span>)
+(spaceline-spacemacs-theme)
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-org214f688" class="outline-2">
+<h2 id="org214f688">自定义主题</h2>
+<div class="outline-text-2" id="text-org214f688">
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">(custom-set-faces
+ <span style="color: #2aa1ae; background-color: #ecf3ec;">;; </span><span style="color: #2aa1ae; background-color: #ecf3ec;">custom-set-faces was added by Custom.</span>
+ <span style="color: #2aa1ae; background-color: #ecf3ec;">;; </span><span style="color: #2aa1ae; background-color: #ecf3ec;">If you edit it by hand, you could mess it up, so be careful.</span>
+ <span style="color: #2aa1ae; background-color: #ecf3ec;">;; </span><span style="color: #2aa1ae; background-color: #ecf3ec;">Your init file should contain only one such instance.</span>
+ <span style="color: #2aa1ae; background-color: #ecf3ec;">;; </span><span style="color: #2aa1ae; background-color: #ecf3ec;">If there is more than one, they won't work right.</span>
+ <span style="color: #2aa1ae; background-color: #ecf3ec;">;;</span><span style="color: #2aa1ae; background-color: #ecf3ec;">helm&#20809;&#26631;&#34892;&#39640;&#20142;</span>
+ '(helm-selection ((t (<span style="color: #3a81c3;">:background</span> <span style="color: #2d9574;">"darkseagreen2"</span>))))
+ '(highlight ((t (<span style="color: #3a81c3;">:background</span> <span style="color: #2d9574;">"darkseagreen2"</span>))))
+ <span style="color: #2aa1ae; background-color: #ecf3ec;">;;</span><span style="color: #2aa1ae; background-color: #ecf3ec;">&#20809;&#26631;&#25152;&#22312;&#34892;&#39640;&#20142;</span>
+
+ '(hl-line ((t (<span style="color: #3a81c3;">:background</span> <span style="color: #2d9574;">"darkseagreen2"</span>))))
+ <span style="color: #2aa1ae; background-color: #ecf3ec;">;;</span><span style="color: #2aa1ae; background-color: #ecf3ec;">&#36873;&#20013;&#34892;&#39068;&#33394;</span>
+
+ '(region ((t (<span style="color: #3a81c3;">:background</span> <span style="color: #2d9574;">"lightgoldenrod2"</span>))))
+ <span style="color: #2aa1ae; background-color: #ecf3ec;">;;</span><span style="color: #2aa1ae; background-color: #ecf3ec;">&#21305;&#37197;&#39068;&#33394;</span>
+
+ '(helm-match-item ((t (<span style="color: #3a81c3;">:background</span> <span style="color: #2d9574;">"magenta3"</span> <span style="color: #3a81c3;">:foreground</span> <span style="color: #2d9574;">"lightskyblue1"</span>))))
+ <span style="color: #2aa1ae; background-color: #ecf3ec;">;;</span><span style="color: #2aa1ae; background-color: #ecf3ec;">&#36755;&#20837;&#21305;&#37197;</span>
+
+ '(helm-match ((t (<span style="color: #3a81c3;">:foreground</span> <span style="color: #2d9574;">"#b00000"</span>))))
+ '(lazy-search-highlight-current ((t (<span style="color: #3a81c3;">:background</span> <span style="color: #2d9574;">"magenta3"</span> <span style="color: #3a81c3;">:foreground</span> <span style="color: #2d9574;">"lightskyblue1"</span>))))
+ '(lazy-search-highlight-background ((t (<span style="color: #3a81c3;">:foreground</span> <span style="color: #2d9574;">"#b00000"</span>))))
+ <span style="color: #2aa1ae; background-color: #ecf3ec;">;;</span><span style="color: #2aa1ae; background-color: #ecf3ec;">&#21305;&#37197;&#36873;&#25321;&#20013;</span>
+
+ '(helm-selection-line ((t (<span style="color: #3a81c3;">:background</span> <span style="color: #2d9574;">"darkseagreen2"</span>)))))
+
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org2f1758b" class="outline-2">
+<h2 id="org2f1758b">输入法</h2>
+<div class="outline-text-2" id="text-org2f1758b">
+<p>
+目前词库采用pyim-bigdict.pyim，可以参考<a href="https://github.com/tumashu/pyim-bigdict">https://github.com/tumashu/pyim-bigdict</a><br />
+这个词库非常不错的选择，基本可以满足我的需求。<br />
+</p>
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">(require-package 'posframe)
+<span style="color: #2aa1ae; background-color: #ecf3ec;">;;</span><span style="color: #2aa1ae; background-color: #ecf3ec;">https://github.com/tumashu/pyim</span>
+<span style="color: #2aa1ae; background-color: #ecf3ec;">;; </span><span style="color: #2aa1ae; background-color: #ecf3ec;">&#20013;&#25991;&#36755;&#20837;&#27861;</span>
+(require-package 'pyim)
+(<span style="color: #3a81c3; font-weight: bold;">require</span> '<span style="color: #4e3163;">pyim</span>)
+<span style="color: #2aa1ae; background-color: #ecf3ec;">;; </span><span style="color: #2aa1ae; background-color: #ecf3ec;">&#25340;&#38899;&#35789;&#24211;&#35774;&#32622;&#65292;&#20116;&#31508;&#29992;&#25143; *&#19981;&#38656;&#35201;* &#27492;&#34892;&#35774;&#32622;</span>
+(require-package 'pyim-basedict)
+(<span style="color: #3a81c3; font-weight: bold;">require</span> '<span style="color: #4e3163;">pyim-basedict</span>)
+<span style="color: #2aa1ae; background-color: #ecf3ec;">;; </span><span style="color: #2aa1ae; background-color: #ecf3ec;">2&#20806;&#35789;&#24211;</span>
+(pyim-basedict-enable)  
+<span style="color: #2aa1ae; background-color: #ecf3ec;">;; </span><span style="color: #2aa1ae; background-color: #ecf3ec;">&#25105;&#20351;&#29992;&#20840;&#25340;</span>
+(<span style="color: #3a81c3; font-weight: bold;">setq</span> pyim-default-scheme 'quanpin)
+(<span style="color: #3a81c3; font-weight: bold;">setq</span> default-input-method <span style="color: #2d9574;">"pyim"</span>)
+
+
+<span style="color: #2aa1ae; background-color: #ecf3ec;">;; </span><span style="color: #2aa1ae; background-color: #ecf3ec;">&#20351;&#29992; pupup-el &#26469;&#32472;&#21046;&#36873;&#35789;&#26694;</span>
+(<span style="color: #3a81c3; font-weight: bold;">setq</span> pyim-page-tooltip 'posframe)
+
+<span style="color: #2aa1ae; background-color: #ecf3ec;">;; </span><span style="color: #2aa1ae; background-color: #ecf3ec;">&#36873;&#35789;&#26694;&#26174;&#31034;6&#20010;&#20505;&#36873;&#35789;</span>
+(<span style="color: #3a81c3; font-weight: bold;">setq</span> pyim-page-length 9)
+<span style="color: #2aa1ae; background-color: #ecf3ec;">;; </span><span style="color: #2aa1ae; background-color: #ecf3ec;">&#35774;&#32622; pyim &#25506;&#38024;&#35774;&#32622;&#65292;&#36825;&#26159; pyim &#39640;&#32423;&#21151;&#33021;&#35774;&#32622;&#65292;&#21487;&#20197;&#23454;&#29616; *&#26080;&#30171;* &#20013;&#33521;&#25991;&#20999;&#25442; :-)</span>
+<span style="color: #2aa1ae; background-color: #ecf3ec;">;; </span><span style="color: #2aa1ae; background-color: #ecf3ec;">&#25105;&#33258;&#24049;&#20351;&#29992;&#30340;&#20013;&#33521;&#25991;&#21160;&#24577;&#20999;&#25442;&#35268;&#21017;&#26159;&#65306;</span>
+<span style="color: #2aa1ae; background-color: #ecf3ec;">;; </span><span style="color: #2aa1ae; background-color: #ecf3ec;">1. &#20809;&#26631;&#21482;&#26377;&#22312;&#27880;&#37322;&#37324;&#38754;&#26102;&#65292;&#25165;&#21487;&#20197;&#36755;&#20837;&#20013;&#25991;&#12290;</span>
+<span style="color: #2aa1ae; background-color: #ecf3ec;">;; </span><span style="color: #2aa1ae; background-color: #ecf3ec;">2. &#20809;&#26631;&#21069;&#26159;&#27721;&#23383;&#23383;&#31526;&#26102;&#65292;&#25165;&#33021;&#36755;&#20837;&#20013;&#25991;&#12290;</span>
+<span style="color: #2aa1ae; background-color: #ecf3ec;">;; </span><span style="color: #2aa1ae; background-color: #ecf3ec;">3. &#20351;&#29992; M-j &#24555;&#25463;&#38190;&#65292;&#24378;&#21046;&#23558;&#20809;&#26631;&#21069;&#30340;&#25340;&#38899;&#23383;&#31526;&#20018;&#36716;&#25442;&#20026;&#20013;&#25991;&#12290;</span>
+(<span style="color: #3a81c3; font-weight: bold;">require</span> '<span style="color: #4e3163;">pyim-probe</span>)
+(<span style="color: #3a81c3; font-weight: bold;">setq-default</span> pyim-english-input-switch-functions '(pyim-probe-dynamic-english pyim-probe-isearch-mode
+                                                                               pyim-probe-program-mode pyim-probe-org-structure-template))
+
+(<span style="color: #3a81c3; font-weight: bold;">setq-default</span> pyim-punctuation-half-width-functions '(pyim-probe-punctuation-line-beginning pyim-probe-punctuation-after-punctuation))
+(global-set-key (kbd <span style="color: #2d9574;">"M-j"</span>)
+                'pyim-convert-string-at-point)
+(<span style="color: #3a81c3; font-weight: bold;">when</span> (display-graphic-p)
+  (pyim-restart-1 t))
+(add-hook 'after-change-major-mode-hook
+          (<span style="color: #3a81c3; font-weight: bold;">lambda</span> ()
+            (<span style="color: #3a81c3; font-weight: bold;">when</span> (display-graphic-p)
+              (run-with-idle-timer 1
+                                   nil
+                                   #'(lambda ()
+                                       (activate-input-method default-input-method))))))
+
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org647ee87" class="outline-2">
+<h2 id="org647ee87">历史配置</h2>
+<div class="outline-text-2" id="text-org647ee87">
+<div class="org-src-container">
+<pre class="src src-emacs-lisp"><span style="color: #2aa1ae; background-color: #ecf3ec;">;; </span><span style="color: #2aa1ae; background-color: #ecf3ec;">save a list of open files in ~/.emacs.d/.emacs.desktop</span>
+
+(<span style="color: #3a81c3; font-weight: bold;">defun</span> <span style="color: #6c3163; font-weight: bold;">ab9986-time-subtract-millis</span> (b a)
+  (* 1000.0
+     (float-time (time-subtract b a))))
+(<span style="color: #3a81c3; font-weight: bold;">setq</span> desktop-path (list user-emacs-directory)
+      desktop-auto-save-timeout
+      600)
+(desktop-save-mode 1)
+
+(<span style="color: #3a81c3; font-weight: bold;">defadvice</span> <span style="color: #6c3163; font-weight: bold;">desktop-read</span>
+    (around time-restore activate)
+  (<span style="color: #3a81c3; font-weight: bold;">let</span> ((start-time (current-time)))
+    (<span style="color: #3a81c3; font-weight: bold;">prog1</span> ad-do-it
+      (message <span style="color: #2d9574;">"Desktop restored in %.2fms"</span>
+               (ab9986-time-subtract-millis (current-time)
+                                            start-time)))))
+
+(<span style="color: #3a81c3; font-weight: bold;">defadvice</span> <span style="color: #6c3163; font-weight: bold;">desktop-create-buffer</span>
+    (around time-create activate)
+  (<span style="color: #3a81c3; font-weight: bold;">let</span> ((start-time (current-time))
+        (filename (ad-get-arg 1)))
+    (<span style="color: #3a81c3; font-weight: bold;">prog1</span> ad-do-it
+      (message <span style="color: #2d9574;">"Desktop: %.2fms to restore %s"</span>
+               (ab9986-time-subtract-millis (current-time)
+                                            start-time)
+               (<span style="color: #3a81c3; font-weight: bold;">when</span> filename
+                 (abbreviate-file-name filename))))))
+<span style="color: #2aa1ae; background-color: #ecf3ec;">;;</span><span style="color: #2aa1ae; background-color: #ecf3ec;">&#20445;&#23384;&#26700;&#38754;&#26102;&#65292;&#23558;ab9986-tommyjob-buffername&#30340;buffer&#20851;&#38381;</span>
+(<span style="color: #3a81c3; font-weight: bold;">defadvice</span> <span style="color: #6c3163; font-weight: bold;">desktop-save</span>
+    (before ab9986-kill-tommyjob activate)
+  (<span style="color: #3a81c3; font-weight: bold;">let</span> ((buffer (get-buffer ab9986-tommyjob-buffername)))
+    (<span style="color: #3a81c3; font-weight: bold;">when</span> buffer
+      (<span style="color: #3a81c3; font-weight: bold;">progn</span>
+        (<span style="color: #3a81c3; font-weight: bold;">with-current-buffer</span> buffer
+          (save-buffer))
+        (kill-buffer buffer)))))
+<span style="color: #2aa1ae; background-color: #ecf3ec;">;;</span><span style="color: #2aa1ae; background-color: #ecf3ec;">&#21462;&#28040;&#33258;&#21160;desktop-save&#20445;&#23384;</span>
+(<span style="color: #3a81c3; font-weight: bold;">setq</span> desktop-auto-save-timeout 0)
+(<span style="color: #3a81c3; font-weight: bold;">setq</span> ab9986-close-tommjob-time nil)
+<span style="color: #2aa1ae; background-color: #ecf3ec;">;;</span><span style="color: #2aa1ae; background-color: #ecf3ec;">&#35774;&#32622;&#19981;&#20351;&#29992;&#24377;&#26694;</span>
+(<span style="color: #3a81c3; font-weight: bold;">setq</span> use-dialog-box nil)
+<span style="color: #2aa1ae; background-color: #ecf3ec;">;;</span><span style="color: #2aa1ae; background-color: #ecf3ec;">&#24403;buffer-tommyjob.org.cpt,&#27599;&#21322;&#20010;&#23567;&#26102;&#35810;&#38382;&#26159;&#21542;&#20851;&#38381;</span>
+(<span style="color: #3a81c3; font-weight: bold;">defun</span> <span style="color: #6c3163; font-weight: bold;">ab9986-close-tommyjob-when-not-current</span> ()
+  (<span style="color: #3a81c3; font-weight: bold;">let</span> ((buffer (get-buffer ab9986-tommyjob-buffername)))
+    (<span style="color: #3a81c3; font-weight: bold;">when</span> buffer
+      (<span style="color: #3a81c3; font-weight: bold;">when</span> (y-or-n-p-with-timeout (format <span style="color: #2d9574;">"close %s"</span> ab9986-tommyjob-buffername)
+                                   60
+                                   t)
+        <span style="color: #2aa1ae; background-color: #ecf3ec;">;;</span><span style="color: #2aa1ae; background-color: #ecf3ec;">(message "%s close  buffer %s"</span>
+        <span style="color: #2aa1ae; background-color: #ecf3ec;">;;         </span><span style="color: #2aa1ae; background-color: #ecf3ec;">(format-time-string "%Y-%m-%d %H:%M")</span>
+        <span style="color: #2aa1ae; background-color: #ecf3ec;">;;         </span><span style="color: #2aa1ae; background-color: #ecf3ec;">ab9986-tommyjob-buffername)</span>
+        (<span style="color: #3a81c3; font-weight: bold;">with-current-buffer</span> buffer
+          (save-buffer))
+        (kill-buffer buffer)
+        (<span style="color: #3a81c3; font-weight: bold;">when</span> ab9986-close-tommjob-time
+          (cancel-timer ab9986-close-tommjob-time)
+          (<span style="color: #3a81c3; font-weight: bold;">setq</span> ab9986-close-tommjob-time nil))))
+    (<span style="color: #3a81c3; font-weight: bold;">when</span> (<span style="color: #3a81c3; font-weight: bold;">and</span> (not buffer)
+               ab9986-close-tommjob-time)
+      (cancel-timer ab9986-close-tommjob-time)
+      (<span style="color: #3a81c3; font-weight: bold;">setq</span> ab9986-close-tommjob-time nil))))
+<span style="color: #2aa1ae; background-color: #ecf3ec;">;;</span><span style="color: #2aa1ae; background-color: #ecf3ec;">&#27599;&#38548;20&#20998;&#38047;,&#26816;&#27979;&#26159;&#21542;&#20851;&#38381;tommyjob.org.cpt&#30340;buffer</span>
+(add-hook 'org-mode-hook
+          (<span style="color: #3a81c3; font-weight: bold;">lambda</span> ()
+            (<span style="color: #3a81c3; font-weight: bold;">if</span> (get-buffer ab9986-tommyjob-buffername)
+                (<span style="color: #3a81c3; font-weight: bold;">when</span> (not ab9986-close-tommjob-time)
+                  <span style="color: #2aa1ae; background-color: #ecf3ec;">;;</span><span style="color: #2aa1ae; background-color: #ecf3ec;">(message "%s open  buffer %s"</span>
+                  <span style="color: #2aa1ae; background-color: #ecf3ec;">;;         </span><span style="color: #2aa1ae; background-color: #ecf3ec;">(format-time-string "%Y-%m-%d %H:%M")</span>
+                  <span style="color: #2aa1ae; background-color: #ecf3ec;">;;         </span><span style="color: #2aa1ae; background-color: #ecf3ec;">ab9986-tommyjob-buffername)</span>
+                  (<span style="color: #3a81c3; font-weight: bold;">setq</span> ab9986-close-tommjob-time (run-with-timer 1200 1200 'ab9986-close-tommyjob-when-not-current)))
+              (<span style="color: #3a81c3; font-weight: bold;">when</span> ab9986-close-tommjob-time
+                (cancel-timer ab9986-close-tommjob-time)
+                (<span style="color: #3a81c3; font-weight: bold;">setq</span> ab9986-close-tommjob-time nil)))))
+<span style="color: #2aa1ae; background-color: #ecf3ec;">;;</span><span style="color: #2aa1ae; background-color: #ecf3ec;">----------------------------------------------------------------------------</span>
+<span style="color: #2aa1ae; background-color: #ecf3ec;">;; </span><span style="color: #2aa1ae; background-color: #ecf3ec;">Restore histories and registers after saving</span>
+<span style="color: #2aa1ae; background-color: #ecf3ec;">;;</span><span style="color: #2aa1ae; background-color: #ecf3ec;">----------------------------------------------------------------------------</span>
+(<span style="color: #3a81c3; font-weight: bold;">setq-default</span> history-length 10)
+(savehist-mode t)
+<span style="color: #2aa1ae; background-color: #ecf3ec;">;; </span><span style="color: #2aa1ae; background-color: #ecf3ec;">save a bunch of variables to the desktop file</span>
+<span style="color: #2aa1ae; background-color: #ecf3ec;">;; </span><span style="color: #2aa1ae; background-color: #ecf3ec;">for lists specify the len of the maximal saved data also</span>
+(<span style="color: #3a81c3; font-weight: bold;">setq</span> desktop-globals-to-save (append '((extended-command-history . 30)
+                                        (file-name-history . 30)
+                                        (helm-find-files-history . 30)
+                                        (org-refile-history . 30))))
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-org154baeb" class="outline-2">
+<h2 id="org154baeb">自定义脚本</h2>
+<div class="outline-text-2" id="text-org154baeb">
+</div>
+<div id="outline-container-orgd6fc71b" class="outline-3">
+<h3 id="orgd6fc71b">激活upcase-region和downcase-region</h3>
+<div class="outline-text-3" id="text-orgd6fc71b">
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">(put 'upcase-region 'disabled nil) 
+(put 'downcase-region 'disabled nil) 
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-org98e0aae" class="outline-3">
+<h3 id="org98e0aae">加密</h3>
+<div class="outline-text-3" id="text-org98e0aae">
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">(<span style="color: #3a81c3; font-weight: bold;">defun</span> <span style="color: #6c3163; font-weight: bold;">ab9986-encrypt</span> (password)
+  (<span style="color: #3a81c3; font-weight: bold;">let</span> ((password (regexp-quote (md5 password))))
+    (concat (substring password 3 4)
+            (substring password 6 7)
+            (substring password 9 10)
+            (substring password 12 13)
+            (substring password 19 20)
+            (substring password 22 23)
+            (substring password 25 26)
+            (substring password 28 29))))
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-org901b912" class="outline-3">
+<h3 id="org901b912">解压与压缩</h3>
+<div class="outline-text-3" id="text-org901b912">
+</div>
+<div id="outline-container-org5f0741f" class="outline-4">
+<h4 id="org5f0741f">删除指定文件夹的7z压缩包</h4>
+<div class="outline-text-4" id="text-org5f0741f">
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">(<span style="color: #3a81c3; font-weight: bold;">defun</span> <span style="color: #6c3163; font-weight: bold;">ab9986-delete7zfile</span> (dir)
+  (mapcar #'(lambda (filename)
+              (f-delete filename))
+          (directory-files dir t <span style="color: #2d9574;">".7z$"</span>)))
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org08d2e85" class="outline-4">
+<h4 id="org08d2e85">压缩指定目录文件夹</h4>
+<div class="outline-text-4" id="text-org08d2e85">
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">(<span style="color: #3a81c3; font-weight: bold;">defun</span> <span style="color: #6c3163; font-weight: bold;">ab9986-7zdir</span> (dir todir suffix encryption <span style="color: #ba2f59; font-weight: bold;">&amp;optional</span> password)
+  (mapcar #'(lambda (filename)
+              (<span style="color: #3a81c3; font-weight: bold;">cond</span>
+               ((<span style="color: #3a81c3; font-weight: bold;">and</span> (f-directory? filename)
+                     (not (s-ends-with? <span style="color: #2d9574;">".svn"</span> filename t))
+                     (not (s-ends-with? <span style="color: #2d9574;">".git"</span> filename t))
+                     (not (f-exists? (concat todir
+                                             <span style="color: #2d9574;">"/"</span>
+                                             (f-filename filename)
+                                             suffix))))
+                (<span style="color: #3a81c3; font-weight: bold;">progn</span>
+                  (print (concat <span style="color: #2d9574;">"&#27491;&#22312;&#21387;&#32553;"</span> filename))
+                  (<span style="color: #3a81c3; font-weight: bold;">cond</span>
+                   ((<span style="color: #3a81c3; font-weight: bold;">or</span> (s-equals? suffix <span style="color: #2d9574;">".7z"</span>)
+                        (s-equals? suffix <span style="color: #2d9574;">".zip"</span>))
+                    (ab9986-7z filename
+                               (concat todir
+                                       <span style="color: #2d9574;">"/"</span>
+                                       (f-filename filename)
+                                       suffix)
+                               encryption
+                               password))
+                   ((s-equals? suffix <span style="color: #2d9574;">".exe"</span>)
+                    (ab9986-7zexe filename
+                                  (concat todir
+                                          <span style="color: #2d9574;">"/"</span>
+                                          (f-filename filename)
+                                          suffix)
+                                  encryption
+                                  password)))))))
+          (directory-files dir t <span style="color: #2d9574;">"^</span><span style="color: #2d9574; font-weight: bold;">\\</span><span style="color: #2d9574; font-weight: bold;">(</span><span style="color: #2d9574;">[</span><span style="color: #4e3163;">^</span><span style="color: #2d9574;">.]</span><span style="color: #2d9574; font-weight: bold;">\\</span><span style="color: #2d9574; font-weight: bold;">|</span><span style="color: #2d9574;">\\.[</span><span style="color: #4e3163;">^</span><span style="color: #2d9574;">.]</span><span style="color: #2d9574; font-weight: bold;">\\</span><span style="color: #2d9574; font-weight: bold;">|</span><span style="color: #2d9574;">\\.\\..</span><span style="color: #2d9574; font-weight: bold;">\\</span><span style="color: #2d9574; font-weight: bold;">)</span><span style="color: #2d9574;">"</span>)))
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org659cc2c" class="outline-4">
+<h4 id="org659cc2c">压缩指定目录文件夹</h4>
+<div class="outline-text-4" id="text-org659cc2c">
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">(<span style="color: #3a81c3; font-weight: bold;">defun</span> <span style="color: #6c3163; font-weight: bold;">ab9986-7zfile</span> (dir todir encryption <span style="color: #ba2f59; font-weight: bold;">&amp;optional</span> password)
+  (mapcar #'(lambda (filename)
+              (<span style="color: #3a81c3; font-weight: bold;">cond</span>
+               ((<span style="color: #3a81c3; font-weight: bold;">and</span> (f-file? filename)
+                     (not (s-ends-with? <span style="color: #2d9574;">".7z"</span> filename t))
+                     (not (s-ends-with? <span style="color: #2d9574;">".zip"</span> filename t))
+                     (not (s-ends-with? <span style="color: #2d9574;">".rar"</span> filename t))
+                     (not (f-exists? (concat todir
+                                             <span style="color: #2d9574;">"/"</span>
+                                             (f-filename filename)
+                                             <span style="color: #2d9574;">".7z"</span>))))
+                (<span style="color: #3a81c3; font-weight: bold;">progn</span>
+                  (print (concat <span style="color: #2d9574;">"&#27491;&#22312;&#21387;&#32553;"</span> filename))
+                  (ab9986-7z filename
+                             (concat todir
+                                     <span style="color: #2d9574;">"/"</span>
+                                     (f-filename filename)
+                                     <span style="color: #2d9574;">".7z"</span>)
+                             encryption
+                             password)))))
+          (directory-files dir t)))
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-org8ec3b69" class="outline-4">
+<h4 id="org8ec3b69">解压指定目录文件夹</h4>
+<div class="outline-text-4" id="text-org8ec3b69">
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">(<span style="color: #3a81c3; font-weight: bold;">defun</span> <span style="color: #6c3163; font-weight: bold;">ab9986-un7zfile</span> (dir todir encryption <span style="color: #ba2f59; font-weight: bold;">&amp;optional</span> password)
+  (mapcar #'(lambda (filename)
+              (<span style="color: #3a81c3; font-weight: bold;">cond</span>
+               ((s-ends-with? <span style="color: #2d9574;">".7z"</span> filename t)
+                (<span style="color: #3a81c3; font-weight: bold;">progn</span>
+                  (print (concat <span style="color: #2d9574;">"&#27491;&#22312;&#35299;&#21387;"</span> filename))
+                  (ab9986-un7z filename todir encryption password)))))
+          (directory-files dir t <span style="color: #2d9574;">"^</span><span style="color: #2d9574; font-weight: bold;">\\</span><span style="color: #2d9574; font-weight: bold;">(</span><span style="color: #2d9574;">[</span><span style="color: #4e3163;">^</span><span style="color: #2d9574;">.]</span><span style="color: #2d9574; font-weight: bold;">\\</span><span style="color: #2d9574; font-weight: bold;">|</span><span style="color: #2d9574;">\\.[</span><span style="color: #4e3163;">^</span><span style="color: #2d9574;">.]</span><span style="color: #2d9574; font-weight: bold;">\\</span><span style="color: #2d9574; font-weight: bold;">|</span><span style="color: #2d9574;">\\.\\..</span><span style="color: #2d9574; font-weight: bold;">\\</span><span style="color: #2d9574; font-weight: bold;">)</span><span style="color: #2d9574;">"</span>)))
+
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgfff0496" class="outline-4">
+<h4 id="orgfff0496">解压文件</h4>
+<div class="outline-text-4" id="text-orgfff0496">
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">(<span style="color: #3a81c3; font-weight: bold;">defun</span> <span style="color: #6c3163; font-weight: bold;">ab9986-un7z</span> (filename todir encryption <span style="color: #ba2f59; font-weight: bold;">&amp;optional</span> password)
+  (<span style="color: #3a81c3; font-weight: bold;">if</span> (not encryption)
+      (shell-command (concat <span style="color: #2d9574;">"7z.exe x "</span> filename <span style="color: #2d9574;">" -o\""</span> todir
+                             <span style="color: #2d9574;">"\""</span>))
+    (shell-command (concat <span style="color: #2d9574;">"7z.exe x "</span> filename <span style="color: #2d9574;">" -p"</span> password
+                           <span style="color: #2d9574;">" -o\""</span> todir <span style="color: #2d9574;">"\""</span>))))
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-org974715c" class="outline-4">
+<h4 id="org974715c">压缩文件</h4>
+<div class="outline-text-4" id="text-org974715c">
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">(<span style="color: #3a81c3; font-weight: bold;">defun</span> <span style="color: #6c3163; font-weight: bold;">ab9986-7z</span> (filename 7zfilename encryption <span style="color: #ba2f59; font-weight: bold;">&amp;optional</span>
+                           password)
+  (<span style="color: #3a81c3; font-weight: bold;">if</span> (not encryption)
+      (shell-command (concat <span style="color: #2d9574;">"7z.exe a "</span> 7zfilename <span style="color: #2d9574;">" -mx0  \""</span>
+                             filename <span style="color: #2d9574;">"\""</span>))
+    (shell-command (concat <span style="color: #2d9574;">"7z.exe a "</span> 7zfilename <span style="color: #2d9574;">" -p"</span> password
+                           <span style="color: #2d9574;">" -mx=0 -mhe=on \""</span> filename <span style="color: #2d9574;">"\""</span>))))
+
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-org6332058" class="outline-4">
+<h4 id="org6332058">压缩文件-自释放</h4>
+<div class="outline-text-4" id="text-org6332058">
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">(<span style="color: #3a81c3; font-weight: bold;">defun</span> <span style="color: #6c3163; font-weight: bold;">ab9986-7zexe</span> (filename 7zfilename encryption <span style="color: #ba2f59; font-weight: bold;">&amp;optional</span>
+                              password)
+  (<span style="color: #3a81c3; font-weight: bold;">if</span> (not encryption)
+      (shell-command (concat <span style="color: #2d9574;">"7z.exe a -sfx "</span> 7zfilename <span style="color: #2d9574;">" \""</span>
+                             filename <span style="color: #2d9574;">"\""</span>))
+    (shell-command (concat <span style="color: #2d9574;">"7z.exe a -sfx "</span> 7zfilename <span style="color: #2d9574;">" -p"</span>
+                           password <span style="color: #2d9574;">" -mhe=on \""</span> filename <span style="color: #2d9574;">"\""</span>))))
+
+</pre>
+</div>
+</div>
+</div>
+</div>
+<div id="outline-container-orgceb747f" class="outline-3">
+<h3 id="orgceb747f">删除emacs-config.el</h3>
+<div class="outline-text-3" id="text-orgceb747f">
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">(<span style="color: #3a81c3; font-weight: bold;">defun</span> <span style="color: #6c3163; font-weight: bold;">ab9986-update-emacs-config-el</span> ()
+  (<span style="color: #3a81c3; font-weight: bold;">when</span> (file-exists-p emacs-config-el-path)
+    (delete-file emacs-config-el-path))
+  (org-babel-tangle-file emacs-config-org-path
+                         emacs-config-el-path <span style="color: #2d9574;">"emacs-lisp"</span>)
+  (byte-compile-file emacs-config-el-path))
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgeaa1c98" class="outline-3">
+<h3 id="orgeaa1c98">指定自定义配置</h3>
+<div class="outline-text-3" id="text-orgeaa1c98">
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">(<span style="color: #3a81c3; font-weight: bold;">setq</span> custom-file (expand-file-name <span style="color: #2d9574;">"custom.el"</span> user-emacs-directory))
+(<span style="color: #3a81c3; font-weight: bold;">when</span> (file-exists-p custom-file)
+  (load custom-file))
+</pre>
+</div>
+</div>
+<div id="outline-container-orgee8f836" class="outline-4">
+<h4 id="orgee8f836">自定义脚本用法</h4>
+<div class="outline-text-4" id="text-orgee8f836">
+<p>
+可以在custom.el中添加<br />
+(setq ab9986-first-dir "Y:")<br />
+</p>
+</div>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgf0488dc" class="outline-2">
+<h2 id="orgf0488dc">结尾</h2>
+<div class="outline-text-2" id="text-orgf0488dc">
+<p>
+增加emacs-config结尾语句<br />
+</p>
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">(<span style="color: #3a81c3; font-weight: bold;">provide</span> '<span style="color: #4e3163;">emacs-config</span>)
+</pre>
+</div>
+</div>
+</div>
+</div>
+<div id="postamble" class="status">
+<p class="validation"></p>
+</div>
+</body>
+</html>
