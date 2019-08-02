@@ -7,7 +7,9 @@ body {
     font-family:Open Sans, sans-serif;
     font-size: 120%;    
     min-width: 780px;
-    max-width: 1260px;    
+    max-width: 1260px;   
+    word-wrap: break-word;
+    word-break: break-all;        
 }
 body.mobile{
     border: 1px solid LightGrey;
@@ -15,7 +17,7 @@ body.mobile{
     width: 90%;
     min-width:0px; 
     word-wrap: break-word;
-    word-break: normal;    
+    word-break: break-all;    
 }
 
 H1 {
