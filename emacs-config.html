@@ -15,7 +15,7 @@ window.onload=mobilecss;</script>
 </head>
 <body>
 <div id="org-div-home-and-up">
- <a accesskey="h" href="index.html"> UP </a>
+ <a accesskey="h" href="blog.html"> UP </a>
  |
  <a accesskey="H" href="index.html"> HOME </a>
 </div><div id="content">
@@ -24,31 +24,32 @@ window.onload=mobilecss;</script>
 <h2>&#30446;&#24405;</h2>
 <div id="text-table-of-contents">
 <ul>
-<li><a href="#orgb74c621">初始化</a></li>
-<li><a href="#org7ac5dad">elpa配置</a></li>
-<li><a href="#orgf60cd68">初始化常用package</a></li>
-<li><a href="#orgdd24f2e">编码格式</a></li>
-<li><a href="#orgcd8ef9f">窗体配置</a></li>
-<li><a href="#org51fc803">编程配置</a></li>
-<li><a href="#org9ab58f3">翻译配置</a></li>
-<li><a href="#orgad1e073">helm配置</a></li>
-<li><a href="#org2c4e9fa">org-mode配置</a></li>
-<li><a href="#org8e51ff5">主题</a></li>
-<li><a href="#org214f688">自定义主题</a></li>
-<li><a href="#org2f1758b">输入法</a></li>
-<li><a href="#org647ee87">历史配置</a></li>
-<li><a href="#org154baeb">自定义脚本</a></li>
-<li><a href="#orgf0488dc">结尾</a></li>
+<li><a href="#org27f5bdd">初始化</a></li>
+<li><a href="#org749b9f8">elpa配置</a></li>
+<li><a href="#orgfeaf009">初始化常用package</a></li>
+<li><a href="#orgdfa9359">编码格式</a></li>
+<li><a href="#orge94d330">窗体配置</a></li>
+<li><a href="#org5a77235">编程配置</a></li>
+<li><a href="#org9873455">翻译配置</a></li>
+<li><a href="#org4b42058">helm配置</a></li>
+<li><a href="#org6435178">org-mode配置</a></li>
+<li><a href="#org20c4739">主题</a></li>
+<li><a href="#org6bbcdb7">自定义主题</a></li>
+<li><a href="#org2080ff8">输入法</a></li>
+<li><a href="#org0c2bf24">termux</a></li>
+<li><a href="#org72031ac">历史配置</a></li>
+<li><a href="#org5d39afe">自定义脚本</a></li>
+<li><a href="#org0a14e7e">结尾</a></li>
 </ul>
 </div>
 </div>
-<div id="outline-container-orgb74c621" class="outline-2">
-<h2 id="orgb74c621">初始化</h2>
-<div class="outline-text-2" id="text-orgb74c621">
+<div id="outline-container-org27f5bdd" class="outline-2">
+<h2 id="org27f5bdd">初始化</h2>
+<div class="outline-text-2" id="text-org27f5bdd">
 </div>
-<div id="outline-container-org5d4380e" class="outline-3">
-<h3 id="org5d4380e">支持最小版本25.1</h3>
-<div class="outline-text-3" id="text-org5d4380e">
+<div id="outline-container-org37f8e3a" class="outline-3">
+<h3 id="org37f8e3a">支持最小版本25.1</h3>
+<div class="outline-text-3" id="text-org37f8e3a">
 <div class="org-src-container">
 <pre class="src src-emacs-lisp">(<span style="color: #3a81c3; font-weight: bold;">let</span> ((minver <span style="color: #2d9574;">"25.1"</span>))
   (<span style="color: #3a81c3; font-weight: bold;">when</span> (version&lt;= emacs-version minver)
@@ -58,24 +59,56 @@ window.onload=mobilecss;</script>
 </div>
 </div>
 </div>
-<div id="outline-container-orgc8f24f9" class="outline-3">
-<h3 id="orgc8f24f9">初始化内存</h3>
-<div class="outline-text-3" id="text-orgc8f24f9">
+<div id="outline-container-org746f6ac" class="outline-3">
+<h3 id="org746f6ac">初始化内存</h3>
+<div class="outline-text-3" id="text-org746f6ac">
 <div class="org-src-container">
-<pre class="src src-emacs-lisp">(<span style="color: #3a81c3; font-weight: bold;">setq</span> normal-gc-cons-threshold (* 500 1024 1024))
-(<span style="color: #3a81c3; font-weight: bold;">let</span> ((init-gc-cons-threshold most-positive-fixnum))
-  (<span style="color: #3a81c3; font-weight: bold;">setq</span> gc-cons-threshold init-gc-cons-threshold)
-  (add-hook 'after-init-hook
-            (<span style="color: #3a81c3; font-weight: bold;">lambda</span> ()
-              (<span style="color: #3a81c3; font-weight: bold;">setq</span> gc-cons-threshold normal-gc-cons-threshold))))
+<pre class="src src-emacs-lisp"><span style="color: #2aa1ae; background-color: #ecf3ec;">;;</span><span style="color: #2aa1ae; background-color: #ecf3ec;">(setq normal-gc-cons-threshold (* 500 1024 1024))</span>
+<span style="color: #2aa1ae; background-color: #ecf3ec;">;;</span><span style="color: #2aa1ae; background-color: #ecf3ec;">(let ((init-gc-cons-threshold most-positive-fixnum))</span>
+<span style="color: #2aa1ae; background-color: #ecf3ec;">;;  </span><span style="color: #2aa1ae; background-color: #ecf3ec;">(setq gc-cons-threshold init-gc-cons-threshold)</span>
+<span style="color: #2aa1ae; background-color: #ecf3ec;">;;  </span><span style="color: #2aa1ae; background-color: #ecf3ec;">(add-hook 'after-init-hook</span>
+<span style="color: #2aa1ae; background-color: #ecf3ec;">;;            </span><span style="color: #2aa1ae; background-color: #ecf3ec;">(lambda ()</span>
+<span style="color: #2aa1ae; background-color: #ecf3ec;">;;              </span><span style="color: #2aa1ae; background-color: #ecf3ec;">(setq gc-cons-threshold normal-gc-cons-threshold))))</span>
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-org8d05b4d" class="outline-3">
+<h3 id="org8d05b4d">gc优化</h3>
+<div class="outline-text-3" id="text-org8d05b4d">
+<p>
+参考原文：<a href="http://akrl.sdf.org/">http://akrl.sdf.org/</a><br />
+翻译：<a href="http://blog.lujun9972.win/blog/2019/05/16/%E4%BC%98%E5%8C%96emacs%E7%9A%84%E5%9E%83%E5%9C%BE%E6%90%9C%E9%9B%86%E8%A1%8C%E4%B8%BA/index.html">http://blog.lujun9972.win/blog/2019/05/16/优化emacs的垃圾搜集行为/index.html</a><br />
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp"><span style="color: #2aa1ae; background-color: #ecf3ec;">;;</span><span style="color: #2aa1ae; background-color: #ecf3ec;">echoline &#20013;&#26174;&#31034;GC&#36807;&#31243;</span>
+<span style="color: #2aa1ae; background-color: #ecf3ec;">;;</span><span style="color: #2aa1ae; background-color: #ecf3ec;">(setq garbage-collection-messages t)</span>
+(<span style="color: #3a81c3; font-weight: bold;">defmacro</span> <span style="color: #6c3163; font-weight: bold;">k-time</span> (<span style="color: #ba2f59; font-weight: bold;">&amp;rest</span> body)
+  <span style="color: #da8b55;">"Measure and return the time it takes evaluating BODY."</span>
+  `(<span style="color: #3a81c3; font-weight: bold;">let</span> ((time (current-time)))
+     ,@body
+     (float-time (time-since time))))
+
+<span style="color: #2aa1ae; background-color: #ecf3ec;">;; </span><span style="color: #2aa1ae; background-color: #ecf3ec;">Set garbage collection threshold to 512M.</span>
+(<span style="color: #3a81c3; font-weight: bold;">setq</span> gc-cons-threshold #x20000000)
+
+<span style="color: #2aa1ae; background-color: #ecf3ec;">;; </span><span style="color: #2aa1ae; background-color: #ecf3ec;">When idle for 15sec run the GC no matter what.</span>
+(<span style="color: #3a81c3; font-weight: bold;">defvar</span> <span style="color: #715ab1;">k-gc-timer</span>
+  (run-with-idle-timer 15 t
+                       (<span style="color: #3a81c3; font-weight: bold;">lambda</span> ()
+                         (message <span style="color: #2d9574;">"Garbage Collector has run for %.06fsec"</span>
+                                  (<span style="color: #3a81c3; font-weight: bold;">k-time</span> (garbage-collect))))))
+
+
 </pre>
 </div>
 </div>
 </div>
 
-<div id="outline-container-orgf0730a0" class="outline-3">
-<h3 id="orgf0730a0">ab9986目录配置</h3>
-<div class="outline-text-3" id="text-orgf0730a0">
+<div id="outline-container-orge255af3" class="outline-3">
+<h3 id="orge255af3">ab9986目录配置</h3>
+<div class="outline-text-3" id="text-orge255af3">
 <div class="org-src-container">
 <pre class="src src-emacs-lisp"><span style="color: #2aa1ae; background-color: #ecf3ec;">;; </span><span style="color: #2aa1ae; background-color: #ecf3ec;">&#37197;&#32622;ab9986&#25152;&#22312;&#25991;&#20214;&#22841;&#36335;&#24452;</span>
 (<span style="color: #3a81c3; font-weight: bold;">setq</span> ab9986-first-dir (<span style="color: #3a81c3; font-weight: bold;">if</span> (eq system-type 'windows-nt)
@@ -109,9 +142,9 @@ window.onload=mobilecss;</script>
 </div>
 </div>
 </div>
-<div id="outline-container-org7ac5dad" class="outline-2">
-<h2 id="org7ac5dad">elpa配置</h2>
-<div class="outline-text-2" id="text-org7ac5dad">
+<div id="outline-container-org749b9f8" class="outline-2">
+<h2 id="org749b9f8">elpa配置</h2>
+<div class="outline-text-2" id="text-org749b9f8">
 <div class="org-src-container">
 <pre class="src src-emacs-lisp">(<span style="color: #3a81c3; font-weight: bold;">require</span> '<span style="color: #4e3163;">package</span>)
 (<span style="color: #3a81c3; font-weight: bold;">let</span> ((versioned-package-dir (expand-file-name (format <span style="color: #2d9574;">"elpa-%s.%s"</span> emacs-major-version emacs-minor-version)
@@ -158,13 +191,13 @@ window.onload=mobilecss;</script>
 </div>
 </div>
 
-<div id="outline-container-orgf60cd68" class="outline-2">
-<h2 id="orgf60cd68">初始化常用package</h2>
-<div class="outline-text-2" id="text-orgf60cd68">
+<div id="outline-container-orgfeaf009" class="outline-2">
+<h2 id="orgfeaf009">初始化常用package</h2>
+<div class="outline-text-2" id="text-orgfeaf009">
 </div>
-<div id="outline-container-org67f4928" class="outline-3">
-<h3 id="org67f4928">文件操作</h3>
-<div class="outline-text-3" id="text-org67f4928">
+<div id="outline-container-org1c02e14" class="outline-3">
+<h3 id="org1c02e14">文件操作</h3>
+<div class="outline-text-3" id="text-org1c02e14">
 <div class="org-src-container">
 <pre class="src src-emacs-lisp">(require-package 'f)
 (<span style="color: #3a81c3; font-weight: bold;">require</span> '<span style="color: #4e3163;">f</span>)
@@ -172,9 +205,9 @@ window.onload=mobilecss;</script>
 </div>
 </div>
 </div>
-<div id="outline-container-orgebdf1da" class="outline-3">
-<h3 id="orgebdf1da">字符串操作</h3>
-<div class="outline-text-3" id="text-orgebdf1da">
+<div id="outline-container-orgaae9576" class="outline-3">
+<h3 id="orgaae9576">字符串操作</h3>
+<div class="outline-text-3" id="text-orgaae9576">
 <div class="org-src-container">
 <pre class="src src-emacs-lisp">(require-package 's)
 (<span style="color: #3a81c3; font-weight: bold;">require</span> '<span style="color: #4e3163;">s</span>)
@@ -183,27 +216,27 @@ window.onload=mobilecss;</script>
 </div>
 </div>
 
-<div id="outline-container-orgcf43f91" class="outline-3">
-<h3 id="orgcf43f91">写作</h3>
-<div class="outline-text-3" id="text-orgcf43f91">
+<div id="outline-container-org62ce262" class="outline-3">
+<h3 id="org62ce262">写作</h3>
+<div class="outline-text-3" id="text-org62ce262">
 <div class="org-src-container">
 <pre class="src src-emacs-lisp">(require-package 'writeroom-mode)
 </pre>
 </div>
 </div>
 </div>
-<div id="outline-container-org2101d83" class="outline-3">
-<h3 id="org2101d83">graphviz</h3>
-<div class="outline-text-3" id="text-org2101d83">
+<div id="outline-container-org8408e0e" class="outline-3">
+<h3 id="org8408e0e">graphviz</h3>
+<div class="outline-text-3" id="text-org8408e0e">
 <div class="org-src-container">
 <pre class="src src-emacs-lisp">(require-package 'graphviz-dot-mode)
 </pre>
 </div>
 </div>
 </div>
-<div id="outline-container-org5b82fc2" class="outline-3">
-<h3 id="org5b82fc2">htmlize</h3>
-<div class="outline-text-3" id="text-org5b82fc2">
+<div id="outline-container-org1d3c307" class="outline-3">
+<h3 id="org1d3c307">htmlize</h3>
+<div class="outline-text-3" id="text-org1d3c307">
 <div class="org-src-container">
 <pre class="src src-emacs-lisp">(require-package 'htmlize)
 </pre>
@@ -211,9 +244,9 @@ window.onload=mobilecss;</script>
 </div>
 </div>
 
-<div id="outline-container-org7e36d16" class="outline-3">
-<h3 id="org7e36d16">dsvn</h3>
-<div class="outline-text-3" id="text-org7e36d16">
+<div id="outline-container-org0308b7c" class="outline-3">
+<h3 id="org0308b7c">dsvn</h3>
+<div class="outline-text-3" id="text-org0308b7c">
 <div class="org-src-container">
 <pre class="src src-emacs-lisp">(require-package 'dsvn)
 (<span style="color: #3a81c3; font-weight: bold;">require</span> '<span style="color: #4e3163;">dsvn</span>)
@@ -224,9 +257,9 @@ window.onload=mobilecss;</script>
 </div>
 
 
-<div id="outline-container-orgdd24f2e" class="outline-2">
-<h2 id="orgdd24f2e">编码格式</h2>
-<div class="outline-text-2" id="text-orgdd24f2e">
+<div id="outline-container-orgdfa9359" class="outline-2">
+<h2 id="orgdfa9359">编码格式</h2>
+<div class="outline-text-2" id="text-orgdfa9359">
 <p>
 自动侦测编码格式<br />
 </p>
@@ -238,13 +271,13 @@ window.onload=mobilecss;</script>
 </div>
 
 
-<div id="outline-container-orgcd8ef9f" class="outline-2">
-<h2 id="orgcd8ef9f">窗体配置</h2>
-<div class="outline-text-2" id="text-orgcd8ef9f">
+<div id="outline-container-orge94d330" class="outline-2">
+<h2 id="orge94d330">窗体配置</h2>
+<div class="outline-text-2" id="text-orge94d330">
 </div>
-<div id="outline-container-org433c241" class="outline-3">
-<h3 id="org433c241">窗体样式</h3>
-<div class="outline-text-3" id="text-org433c241">
+<div id="outline-container-orgcb47427" class="outline-3">
+<h3 id="orgcb47427">窗体样式</h3>
+<div class="outline-text-3" id="text-orgcb47427">
 <div class="org-src-container">
 <pre class="src src-emacs-lisp">(<span style="color: #3a81c3; font-weight: bold;">when</span> (fboundp 'tool-bar-mode)
   (tool-bar-mode -1))
@@ -261,9 +294,9 @@ window.onload=mobilecss;</script>
 </div>
 </div>
 </div>
-<div id="outline-container-org6e9ce0c" class="outline-3">
-<h3 id="org6e9ce0c">窗体名称</h3>
-<div class="outline-text-3" id="text-org6e9ce0c">
+<div id="outline-container-org8eb54f5" class="outline-3">
+<h3 id="org8eb54f5">窗体名称</h3>
+<div class="outline-text-3" id="text-org8eb54f5">
 <div class="org-src-container">
 <pre class="src src-emacs-lisp">(<span style="color: #3a81c3; font-weight: bold;">setq</span> frame-title-format '((<span style="color: #3a81c3;">:eval</span> (<span style="color: #3a81c3; font-weight: bold;">if</span> (buffer-file-name)
                                       (abbreviate-file-name (buffer-file-name))
@@ -272,9 +305,9 @@ window.onload=mobilecss;</script>
 </div>
 </div>
 </div>
-<div id="outline-container-orgea24b3d" class="outline-3">
-<h3 id="orgea24b3d">字体配置</h3>
-<div class="outline-text-3" id="text-orgea24b3d">
+<div id="outline-container-orgae1acae" class="outline-3">
+<h3 id="orgae1acae">字体配置</h3>
+<div class="outline-text-3" id="text-orgae1acae">
 <div class="org-src-container">
 <pre class="src src-emacs-lisp">(require-package 'font-utils)
 (<span style="color: #3a81c3; font-weight: bold;">when</span> (font-utils-exists-p <span style="color: #2d9574;">"YaHei Consolas Hybrid"</span>)
@@ -286,9 +319,9 @@ window.onload=mobilecss;</script>
 </div>
 </div>
 </div>
-<div id="outline-container-orgde6fc99" class="outline-3">
-<h3 id="orgde6fc99">设置换行符和高亮光标的当前行</h3>
-<div class="outline-text-3" id="text-orgde6fc99">
+<div id="outline-container-org561021e" class="outline-3">
+<h3 id="org561021e">设置换行符和高亮光标的当前行</h3>
+<div class="outline-text-3" id="text-org561021e">
 <div class="org-src-container">
 <pre class="src src-emacs-lisp">(<span style="color: #3a81c3; font-weight: bold;">when</span> (display-graphic-p)
   (<span style="color: #3a81c3; font-weight: bold;">progn</span>
@@ -308,9 +341,9 @@ window.onload=mobilecss;</script>
 </pre>
 </div>
 </div>
-<div id="outline-container-orgb02b3de" class="outline-4">
-<h4 id="orgb02b3de">yes和no命令简化</h4>
-<div class="outline-text-4" id="text-orgb02b3de">
+<div id="outline-container-org60db5fc" class="outline-4">
+<h4 id="org60db5fc">yes和no命令简化</h4>
+<div class="outline-text-4" id="text-org60db5fc">
 <div class="org-src-container">
 <pre class="src src-emacs-lisp">(<span style="color: #3a81c3; font-weight: bold;">defalias</span> '<span style="color: #6c3163; font-weight: bold;">yes-or-no-p</span> 'y-or-n-p)
 </pre>
@@ -318,9 +351,9 @@ window.onload=mobilecss;</script>
 </div>
 </div>
 </div>
-<div id="outline-container-org3fcef7b" class="outline-3">
-<h3 id="org3fcef7b">Tab配置</h3>
-<div class="outline-text-3" id="text-org3fcef7b">
+<div id="outline-container-org487cbca" class="outline-3">
+<h3 id="org487cbca">Tab配置</h3>
+<div class="outline-text-3" id="text-org487cbca">
 <div class="org-src-container">
 <pre class="src src-emacs-lisp"><span style="color: #2aa1ae; background-color: #ecf3ec;">;;</span><span style="color: #2aa1ae; background-color: #ecf3ec;">&#21435;&#38500;TAB</span>
 (<span style="color: #3a81c3; font-weight: bold;">setq-default</span> indent-tabs-mode nil)
@@ -330,13 +363,13 @@ window.onload=mobilecss;</script>
 </div>
 </div>
 
-<div id="outline-container-org51fc803" class="outline-2">
-<h2 id="org51fc803">编程配置</h2>
-<div class="outline-text-2" id="text-org51fc803">
+<div id="outline-container-org5a77235" class="outline-2">
+<h2 id="org5a77235">编程配置</h2>
+<div class="outline-text-2" id="text-org5a77235">
 </div>
-<div id="outline-container-org4ad35ed" class="outline-3">
-<h3 id="org4ad35ed">elisp代码格式化</h3>
-<div class="outline-text-3" id="text-org4ad35ed">
+<div id="outline-container-orgf643f15" class="outline-3">
+<h3 id="orgf643f15">elisp代码格式化</h3>
+<div class="outline-text-3" id="text-orgf643f15">
 <div class="org-src-container">
 <pre class="src src-emacs-lisp"><span style="color: #2aa1ae; background-color: #ecf3ec;">;;</span><span style="color: #2aa1ae; background-color: #ecf3ec;">&#26684;&#24335;&#21270;elisp&#20195;&#30721;&#65292;&#21487;&#20197;&#20351;&#29992;&#21629;&#20196;srefactor-lisp-format-buffer</span>
 (require-package 'srefactor)
@@ -345,9 +378,9 @@ window.onload=mobilecss;</script>
 </div>
 </div>
 </div>
-<div id="outline-container-orga5f5419" class="outline-3">
-<h3 id="orga5f5419">代码折叠</h3>
-<div class="outline-text-3" id="text-orga5f5419">
+<div id="outline-container-org6e46520" class="outline-3">
+<h3 id="org6e46520">代码折叠</h3>
+<div class="outline-text-3" id="text-org6e46520">
 <div class="org-src-container">
 <pre class="src src-emacs-lisp">(require-package 'origami)
 <span style="color: #2aa1ae; background-color: #ecf3ec;">;;</span><span style="color: #2aa1ae; background-color: #ecf3ec;">&#34917;&#20805;&#24555;&#25463;&#38190;</span>
@@ -355,18 +388,18 @@ window.onload=mobilecss;</script>
 </div>
 </div>
 </div>
-<div id="outline-container-org9bd65d1" class="outline-3">
-<h3 id="org9bd65d1">高亮括号</h3>
-<div class="outline-text-3" id="text-org9bd65d1">
+<div id="outline-container-orgc42ee7b" class="outline-3">
+<h3 id="orgc42ee7b">高亮括号</h3>
+<div class="outline-text-3" id="text-orgc42ee7b">
 <div class="org-src-container">
 <pre class="src src-emacs-lisp">(show-paren-mode 1)
 </pre>
 </div>
 </div>
 </div>
-<div id="outline-container-orga94eba9" class="outline-3">
-<h3 id="orga94eba9">其他</h3>
-<div class="outline-text-3" id="text-orga94eba9">
+<div id="outline-container-org710b22e" class="outline-3">
+<h3 id="org710b22e">其他</h3>
+<div class="outline-text-3" id="text-org710b22e">
 <div class="org-src-container">
 <pre class="src src-emacs-lisp">(require-package 'company-quickhelp)
 (require-package 'elisp-slime-nav)
@@ -383,9 +416,9 @@ window.onload=mobilecss;</script>
 </div>
 </div>
 </div>
-<div id="outline-container-org5907896" class="outline-3">
-<h3 id="org5907896">字符串匹配</h3>
-<div class="outline-text-3" id="text-org5907896">
+<div id="outline-container-org4ec3d3c" class="outline-3">
+<h3 id="org4ec3d3c">字符串匹配</h3>
+<div class="outline-text-3" id="text-org4ec3d3c">
 <div class="org-src-container">
 <pre class="src src-emacs-lisp">(<span style="color: #3a81c3; font-weight: bold;">require</span> '<span style="color: #4e3163;">lazy-search</span>)
 (global-set-key (kbd <span style="color: #2d9574;">"C-n"</span>)
@@ -401,9 +434,9 @@ window.onload=mobilecss;</script>
 </div>
 
 
-<div id="outline-container-orgfbf956c" class="outline-3">
-<h3 id="orgfbf956c">rg搜索</h3>
-<div class="outline-text-3" id="text-orgfbf956c">
+<div id="outline-container-org3cf66da" class="outline-3">
+<h3 id="org3cf66da">rg搜索</h3>
+<div class="outline-text-3" id="text-org3cf66da">
 <div class="org-src-container">
 <pre class="src src-emacs-lisp">(require-package 'deadgrep)
 </pre>
@@ -411,9 +444,9 @@ window.onload=mobilecss;</script>
 </div>
 </div>
 
-<div id="outline-container-orgccee022" class="outline-3">
-<h3 id="orgccee022">代码选中</h3>
-<div class="outline-text-3" id="text-orgccee022">
+<div id="outline-container-org829c38e" class="outline-3">
+<h3 id="org829c38e">代码选中</h3>
+<div class="outline-text-3" id="text-org829c38e">
 <div class="org-src-container">
 <pre class="src src-emacs-lisp">(require-package 'expand-region)
 (global-set-key (kbd <span style="color: #2d9574;">"C-="</span>)
@@ -423,9 +456,9 @@ window.onload=mobilecss;</script>
 </div>
 </div>
 
-<div id="outline-container-org447a658" class="outline-3">
-<h3 id="org447a658">fd搜索</h3>
-<div class="outline-text-3" id="text-org447a658">
+<div id="outline-container-org5abbcb4" class="outline-3">
+<h3 id="org5abbcb4">fd搜索</h3>
+<div class="outline-text-3" id="text-org5abbcb4">
 <div class="org-src-container">
 <pre class="src src-emacs-lisp">(<span style="color: #3a81c3; font-weight: bold;">require</span> '<span style="color: #4e3163;">deadfd</span>)
 </pre>
@@ -434,31 +467,33 @@ window.onload=mobilecss;</script>
 </div>
 </div>
 
-<div id="outline-container-org9ab58f3" class="outline-2">
-<h2 id="org9ab58f3">翻译配置</h2>
-<div class="outline-text-2" id="text-org9ab58f3">
+<div id="outline-container-org9873455" class="outline-2">
+<h2 id="org9873455">翻译配置</h2>
+<div class="outline-text-2" id="text-org9873455">
 </div>
-<div id="outline-container-orga00b17b" class="outline-3">
-<h3 id="orga00b17b">词典</h3>
-<div class="outline-text-3" id="text-orga00b17b">
+<div id="outline-container-orgd4f1684" class="outline-3">
+<h3 id="orgd4f1684">词典</h3>
+<div class="outline-text-3" id="text-orgd4f1684">
 <div class="org-src-container">
 <pre class="src src-emacs-lisp">(require-package 'bing-dict)
 (global-set-key (kbd <span style="color: #2d9574;">"C-c o"</span>)
                 'bing-dict-brief)
 (<span style="color: #3a81c3; font-weight: bold;">setq</span> bing-dict-add-to-kill-ring t)
 (<span style="color: #3a81c3; font-weight: bold;">setq</span> bing-dict-vocabulary-save t)
-(<span style="color: #3a81c3; font-weight: bold;">setq</span> bing-dict-vocabulary-file (concat ab9986-default-directory <span style="color: #2d9574;">"/note/tommy/vocabulary.org"</span>))
+(<span style="color: #3a81c3; font-weight: bold;">setq</span> bing-dict-vocabulary-file (concat ab9986-default-directory <span style="color: #2d9574;">"/tommy/vocabulary.org"</span>))
 </pre>
 </div>
 </div>
 </div>
 </div>
 
-<div id="outline-container-orgad1e073" class="outline-2">
-<h2 id="orgad1e073">helm配置</h2>
-<div class="outline-text-2" id="text-orgad1e073">
+<div id="outline-container-org4b42058" class="outline-2">
+<h2 id="org4b42058">helm配置</h2>
+<div class="outline-text-2" id="text-org4b42058">
 <div class="org-src-container">
 <pre class="src src-emacs-lisp">(require-package 'helm)
+(<span style="color: #3a81c3; font-weight: bold;">require</span> '<span style="color: #4e3163;">helm-easymenu</span>)
+(require-package 'helm-org)
 <span style="color: #2aa1ae; background-color: #ecf3ec;">;;</span><span style="color: #2aa1ae; background-color: #ecf3ec;">(require-package 'helm-org-rifle)</span>
 <span style="color: #2aa1ae; background-color: #ecf3ec;">;;</span><span style="color: #2aa1ae; background-color: #ecf3ec;">(require-package 'helm-ag)</span>
 <span style="color: #2aa1ae; background-color: #ecf3ec;">;;</span><span style="color: #2aa1ae; background-color: #ecf3ec;">(global-set-key (kbd "C-x C-a") 'helm-org-rifle)</span>
@@ -488,9 +523,10 @@ window.onload=mobilecss;</script>
 (global-set-key (kbd <span style="color: #2d9574;">"M-s"</span>)
                 'helm-org-in-buffer-headings)
 (<span style="color: #3a81c3; font-weight: bold;">setq</span> helm-ff-auto-update-initial-value t)
+(helm-mode 1)
+(<span style="color: #3a81c3; font-weight: bold;">require</span> '<span style="color: #4e3163;">helm-org</span>)
 <span style="color: #2aa1ae; background-color: #ecf3ec;">;;</span><span style="color: #2aa1ae; background-color: #ecf3ec;">&#37197;&#32622;helm-org-in-buffer-headings&#26174;&#31034;&#23436;&#25972;&#36335;&#24452;</span>
 (<span style="color: #3a81c3; font-weight: bold;">setq</span> helm-org-format-outline-path t)
-(helm-mode 1)
 (<span style="color: #3a81c3; font-weight: bold;">require</span> '<span style="color: #4e3163;">helm-find</span>)
 (<span style="color: #3a81c3; font-weight: bold;">defun</span> <span style="color: #6c3163; font-weight: bold;">helm-fd</span> ()
   (<span style="color: #3a81c3; font-weight: bold;">interactive</span>)
@@ -520,17 +556,17 @@ window.onload=mobilecss;</script>
 </div>
 
 
-<div id="outline-container-org2c4e9fa" class="outline-2">
-<h2 id="org2c4e9fa">org-mode配置</h2>
-<div class="outline-text-2" id="text-org2c4e9fa">
+<div id="outline-container-org6435178" class="outline-2">
+<h2 id="org6435178">org-mode配置</h2>
+<div class="outline-text-2" id="text-org6435178">
 <div class="org-src-container">
 <pre class="src src-emacs-lisp">(<span style="color: #3a81c3; font-weight: bold;">require</span> '<span style="color: #4e3163;">org</span>)
 </pre>
 </div>
 </div>
-<div id="outline-container-org7a64dfc" class="outline-3">
-<h3 id="org7a64dfc">配置org的路径变量</h3>
-<div class="outline-text-3" id="text-org7a64dfc">
+<div id="outline-container-orga9bebe7" class="outline-3">
+<h3 id="orga9bebe7">配置org的路径变量</h3>
+<div class="outline-text-3" id="text-orga9bebe7">
 <div class="org-src-container">
 <pre class="src src-emacs-lisp"><span style="color: #2aa1ae; background-color: #ecf3ec;">;;</span><span style="color: #2aa1ae; background-color: #ecf3ec;">&#36319;&#36827;current-buffer&#30340;buffername&#33719;&#21462;&#38468;&#20214;&#36335;&#24452;</span>
 (<span style="color: #3a81c3; font-weight: bold;">defun</span> <span style="color: #6c3163; font-weight: bold;">ab9986-get-org-attach-dir</span> ()
@@ -546,9 +582,9 @@ window.onload=mobilecss;</script>
 </div>
 </div>
 </div>
-<div id="outline-container-org20b20ae" class="outline-3">
-<h3 id="org20b20ae">org链接打开配置</h3>
-<div class="outline-text-3" id="text-org20b20ae">
+<div id="outline-container-orgbb54b53" class="outline-3">
+<h3 id="orgbb54b53">org链接打开配置</h3>
+<div class="outline-text-3" id="text-orgbb54b53">
 <div class="org-src-container">
 <pre class="src src-emacs-lisp"><span style="color: #2aa1ae; background-color: #ecf3ec;">;;</span><span style="color: #2aa1ae; background-color: #ecf3ec;">&#35774;&#32622;&#25152;&#26377;&#30340;.org &#25171;&#24320;&#40664;&#35748;&#20026; utf-8</span>
 (modify-coding-system-alist 'file <span style="color: #2d9574;">"\\.org\\'"</span>
@@ -571,9 +607,9 @@ window.onload=mobilecss;</script>
 </div>
 </div>
 </div>
-<div id="outline-container-org297adf6" class="outline-3">
-<h3 id="org297adf6">org捕捉配置</h3>
-<div class="outline-text-3" id="text-org297adf6">
+<div id="outline-container-org4037e1d" class="outline-3">
+<h3 id="org4037e1d">org捕捉配置</h3>
+<div class="outline-text-3" id="text-org4037e1d">
 <div class="org-src-container">
 <pre class="src src-emacs-lisp"><span style="color: #2aa1ae; background-color: #ecf3ec;">;; </span><span style="color: #2aa1ae; background-color: #ecf3ec;">&#33258;&#21160;&#25429;&#25417;&#20219;&#21153;</span>
 (global-set-key (kbd <span style="color: #2d9574;">"C-c c"</span>)
@@ -622,9 +658,9 @@ window.onload=mobilecss;</script>
 </div>
 </div>
 
-<div id="outline-container-org211c66e" class="outline-3">
-<h3 id="org211c66e">org-babel配置</h3>
-<div class="outline-text-3" id="text-org211c66e">
+<div id="outline-container-org5a5b0f9" class="outline-3">
+<h3 id="org5a5b0f9">org-babel配置</h3>
+<div class="outline-text-3" id="text-org5a5b0f9">
 <div class="org-src-container">
 <pre class="src src-emacs-lisp">(<span style="color: #3a81c3; font-weight: bold;">setq</span> org-plantuml-jar-path (concat ab9986-first-dir <span style="color: #2d9574;">"ab9986/collect/core/plantuml/plantuml.jar"</span>))
 <span style="color: #2aa1ae; background-color: #ecf3ec;">;;</span><span style="color: #2aa1ae; background-color: #ecf3ec;">c-c c-c &#20250;&#35745;&#31639;&#32467;&#26524;</span>
@@ -638,9 +674,9 @@ window.onload=mobilecss;</script>
 </div>
 </div>
 </div>
-<div id="outline-container-org68479a7" class="outline-3">
-<h3 id="org68479a7">org导出配置</h3>
-<div class="outline-text-3" id="text-org68479a7">
+<div id="outline-container-org809b342" class="outline-3">
+<h3 id="org809b342">org导出配置</h3>
+<div class="outline-text-3" id="text-org809b342">
 <div class="org-src-container">
 <pre class="src src-emacs-lisp">(<span style="color: #3a81c3; font-weight: bold;">setq</span> org-support-shift-select t)
 <span style="color: #2aa1ae; background-color: #ecf3ec;">;;</span><span style="color: #2aa1ae; background-color: #ecf3ec;">&#35774;&#32622; org&#23548;&#20986;&#40664;&#35748;&#20026;zh-CN</span>
@@ -684,9 +720,9 @@ window.onload=mobilecss;</script>
 </div>
 
 
-<div id="outline-container-orgee4702e" class="outline-3">
-<h3 id="orgee4702e">附件配置</h3>
-<div class="outline-text-3" id="text-orgee4702e">
+<div id="outline-container-org9d39d62" class="outline-3">
+<h3 id="org9d39d62">附件配置</h3>
+<div class="outline-text-3" id="text-org9d39d62">
 <div class="org-src-container">
 <pre class="src src-emacs-lisp">(<span style="color: #3a81c3; font-weight: bold;">require</span> '<span style="color: #4e3163;">org-attach</span>)
 <span style="color: #2aa1ae; background-color: #ecf3ec;">;;</span><span style="color: #2aa1ae; background-color: #ecf3ec;">c-c w &#31532;&#20108;&#32423;&#26631;&#39064; </span>
@@ -778,9 +814,9 @@ window.onload=mobilecss;</script>
 </div>
 </div>
 </div>
-<div id="outline-container-orgdf4ce7b" class="outline-3">
-<h3 id="orgdf4ce7b">org加密</h3>
-<div class="outline-text-3" id="text-orgdf4ce7b">
+<div id="outline-container-org76642e9" class="outline-3">
+<h3 id="org76642e9">org加密</h3>
+<div class="outline-text-3" id="text-org76642e9">
 <div class="org-src-container">
 <pre class="src src-emacs-lisp">(<span style="color: #3a81c3; font-weight: bold;">require</span> '<span style="color: #4e3163;">ps-ccrypt</span>)
 </pre>
@@ -788,13 +824,13 @@ window.onload=mobilecss;</script>
 </div>
 </div>
 
-<div id="outline-container-orge9ff771" class="outline-3">
-<h3 id="orge9ff771">table</h3>
-<div class="outline-text-3" id="text-orge9ff771">
+<div id="outline-container-orgeb876e1" class="outline-3">
+<h3 id="orgeb876e1">table</h3>
+<div class="outline-text-3" id="text-orgeb876e1">
 </div>
-<div id="outline-container-orgb9dee6f" class="outline-4">
-<h4 id="orgb9dee6f">查看表格折叠内容</h4>
-<div class="outline-text-4" id="text-orgb9dee6f">
+<div id="outline-container-orgcb4288e" class="outline-4">
+<h4 id="orgcb4288e">查看表格折叠内容</h4>
+<div class="outline-text-4" id="text-orgcb4288e">
 <p>
 不默认查看表格超长模式，执行org-table-follow-field-mode，开启查看表格超出字段<br />
 </p>
@@ -815,9 +851,9 @@ window.onload=mobilecss;</script>
 </div>
 </div>
 </div>
-<div id="outline-container-org113fce0" class="outline-4">
-<h4 id="org113fce0">离开表格自动关闭显示列内容小窗</h4>
-<div class="outline-text-4" id="text-org113fce0">
+<div id="outline-container-orgfd1e6f6" class="outline-4">
+<h4 id="orgfd1e6f6">离开表格自动关闭显示列内容小窗</h4>
+<div class="outline-text-4" id="text-orgfd1e6f6">
 <p>
 ;;保存桌面时，将ab9986-tommyjob-buffername的buffer关闭<br />
 </p>
@@ -837,9 +873,9 @@ window.onload=mobilecss;</script>
 </div>
 </div>
 
-<div id="outline-container-orgff95232" class="outline-3">
-<h3 id="orgff95232">导出</h3>
-<div class="outline-text-3" id="text-orgff95232">
+<div id="outline-container-orgeb8c065" class="outline-3">
+<h3 id="orgeb8c065">导出</h3>
+<div class="outline-text-3" id="text-orgeb8c065">
 <div class="org-src-container">
 <pre class="src src-emacs-lisp">(require-package 'ox-pandoc)
 </pre>
@@ -866,9 +902,9 @@ window.onload=mobilecss;</script>
 </div>
 </div>
 
-<div id="outline-container-orgd437527" class="outline-4">
-<h4 id="orgd437527">导出目录</h4>
-<div class="outline-text-4" id="text-orgd437527">
+<div id="outline-container-orgebc3fee" class="outline-4">
+<h4 id="orgebc3fee">导出目录</h4>
+<div class="outline-text-4" id="text-orgebc3fee">
 <div class="org-src-container">
 <pre class="src src-emacs-lisp">(<span style="color: #3a81c3; font-weight: bold;">defvar</span> <span style="color: #715ab1;">org-export-directory</span> (concat ab9986-first-dir <span style="color: #2d9574;">"/ab9986/ab9986.github.io/"</span>))
 
@@ -883,9 +919,9 @@ window.onload=mobilecss;</script>
 </div>
 
 
-<div id="outline-container-orgd24ec6f" class="outline-3">
-<h3 id="orgd24ec6f">org-refile配置</h3>
-<div class="outline-text-3" id="text-orgd24ec6f">
+<div id="outline-container-orgef90630" class="outline-3">
+<h3 id="orgef90630">org-refile配置</h3>
+<div class="outline-text-3" id="text-orgef90630">
 <p>
 调用移动heading,放在上一级首位<br />
 </p>
@@ -895,15 +931,15 @@ window.onload=mobilecss;</script>
 </div>
 </div>
 </div>
-<div id="outline-container-orga245f5a" class="outline-3">
-<h3 id="orga245f5a">android阅读配置</h3>
+<div id="outline-container-org29b7944" class="outline-3">
+<h3 id="org29b7944">android阅读配置</h3>
 </div>
 </div>
 
 
-<div id="outline-container-org8e51ff5" class="outline-2">
-<h2 id="org8e51ff5">主题</h2>
-<div class="outline-text-2" id="text-org8e51ff5">
+<div id="outline-container-org20c4739" class="outline-2">
+<h2 id="org20c4739">主题</h2>
+<div class="outline-text-2" id="text-org20c4739">
 <div class="org-src-container">
 <pre class="src src-emacs-lisp">(require-package 'spacemacs-theme)                       
 (load-theme 'spacemacs-light t)
@@ -915,9 +951,9 @@ window.onload=mobilecss;</script>
 </div>
 </div>
 </div>
-<div id="outline-container-org214f688" class="outline-2">
-<h2 id="org214f688">自定义主题</h2>
-<div class="outline-text-2" id="text-org214f688">
+<div id="outline-container-org6bbcdb7" class="outline-2">
+<h2 id="org6bbcdb7">自定义主题</h2>
+<div class="outline-text-2" id="text-org6bbcdb7">
 <div class="org-src-container">
 <pre class="src src-emacs-lisp">(custom-set-faces
  <span style="color: #2aa1ae; background-color: #ecf3ec;">;; </span><span style="color: #2aa1ae; background-color: #ecf3ec;">custom-set-faces was added by Custom.</span>
@@ -950,9 +986,9 @@ window.onload=mobilecss;</script>
 </div>
 </div>
 
-<div id="outline-container-org2f1758b" class="outline-2">
-<h2 id="org2f1758b">输入法</h2>
-<div class="outline-text-2" id="text-org2f1758b">
+<div id="outline-container-org2080ff8" class="outline-2">
+<h2 id="org2080ff8">输入法</h2>
+<div class="outline-text-2" id="text-org2080ff8">
 <p>
 目前词库采用pyim-bigdict.pyim，可以参考<a href="https://github.com/tumashu/pyim-bigdict">https://github.com/tumashu/pyim-bigdict</a><br />
 这个词库非常不错的选择，基本可以满足我的需求。<br />
@@ -983,6 +1019,7 @@ window.onload=mobilecss;</script>
 <span style="color: #2aa1ae; background-color: #ecf3ec;">;; </span><span style="color: #2aa1ae; background-color: #ecf3ec;">1. &#20809;&#26631;&#21482;&#26377;&#22312;&#27880;&#37322;&#37324;&#38754;&#26102;&#65292;&#25165;&#21487;&#20197;&#36755;&#20837;&#20013;&#25991;&#12290;</span>
 <span style="color: #2aa1ae; background-color: #ecf3ec;">;; </span><span style="color: #2aa1ae; background-color: #ecf3ec;">2. &#20809;&#26631;&#21069;&#26159;&#27721;&#23383;&#23383;&#31526;&#26102;&#65292;&#25165;&#33021;&#36755;&#20837;&#20013;&#25991;&#12290;</span>
 <span style="color: #2aa1ae; background-color: #ecf3ec;">;; </span><span style="color: #2aa1ae; background-color: #ecf3ec;">3. &#20351;&#29992; M-j &#24555;&#25463;&#38190;&#65292;&#24378;&#21046;&#23558;&#20809;&#26631;&#21069;&#30340;&#25340;&#38899;&#23383;&#31526;&#20018;&#36716;&#25442;&#20026;&#20013;&#25991;&#12290;</span>
+(<span style="color: #3a81c3; font-weight: bold;">setq</span> pyim-dcache-backend 'pyim-dregcache)
 (<span style="color: #3a81c3; font-weight: bold;">require</span> '<span style="color: #4e3163;">pyim-probe</span>)
 (<span style="color: #3a81c3; font-weight: bold;">setq-default</span> pyim-english-input-switch-functions '(pyim-probe-dynamic-english pyim-probe-isearch-mode
                                                                                pyim-probe-program-mode pyim-probe-org-structure-template))
@@ -992,7 +1029,7 @@ window.onload=mobilecss;</script>
                 'pyim-convert-string-at-point)
 (<span style="color: #3a81c3; font-weight: bold;">when</span> (display-graphic-p)
   (pyim-restart-1 t))
-(add-hook 'after-change-major-mode-hook
+(add-hook 'org-mode-hook
           (<span style="color: #3a81c3; font-weight: bold;">lambda</span> ()
             (<span style="color: #3a81c3; font-weight: bold;">when</span> (display-graphic-p)
               (run-with-idle-timer 1
@@ -1005,9 +1042,41 @@ window.onload=mobilecss;</script>
 </div>
 </div>
 
-<div id="outline-container-org647ee87" class="outline-2">
-<h2 id="org647ee87">历史配置</h2>
-<div class="outline-text-2" id="text-org647ee87">
+<div id="outline-container-org0c2bf24" class="outline-2">
+<h2 id="org0c2bf24">termux</h2>
+<div class="outline-text-2" id="text-org0c2bf24">
+</div>
+<div id="outline-container-orgddc8018" class="outline-3">
+<h3 id="orgddc8018">判断是否termux</h3>
+<div class="outline-text-3" id="text-orgddc8018">
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">(<span style="color: #3a81c3; font-weight: bold;">defun</span> <span style="color: #6c3163; font-weight: bold;">eh-termux-p</span> ()
+  <span style="color: #da8b55;">"Test termux environment."</span>
+  (<span style="color: #3a81c3; font-weight: bold;">and</span> (equal system-configuration <span style="color: #2d9574;">"aarch64-unknown-linux-android"</span>)
+       (not (display-graphic-p))))
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-org71f3f9b" class="outline-3">
+<h3 id="org71f3f9b">设置buffer为只读模式</h3>
+<div class="outline-text-3" id="text-org71f3f9b">
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">(add-hook 'org-mode-hook
+          (<span style="color: #3a81c3; font-weight: bold;">lambda</span> ()
+            (<span style="color: #3a81c3; font-weight: bold;">when</span> (eh-termux-p)
+              (read-only-mode))))
+</pre>
+</div>
+</div>
+</div>
+</div>
+
+
+
+<div id="outline-container-org72031ac" class="outline-2">
+<h2 id="org72031ac">历史配置</h2>
+<div class="outline-text-2" id="text-org72031ac">
 <div class="org-src-container">
 <pre class="src src-emacs-lisp"><span style="color: #2aa1ae; background-color: #ecf3ec;">;; </span><span style="color: #2aa1ae; background-color: #ecf3ec;">save a list of open files in ~/.emacs.d/.emacs.desktop</span>
 
@@ -1058,9 +1127,9 @@ window.onload=mobilecss;</script>
       (<span style="color: #3a81c3; font-weight: bold;">when</span> (y-or-n-p-with-timeout (format <span style="color: #2d9574;">"close %s"</span> ab9986-tommyjob-buffername)
                                    60
                                    t)
-        <span style="color: #2aa1ae; background-color: #ecf3ec;">;;</span><span style="color: #2aa1ae; background-color: #ecf3ec;">(message "%s close  buffer %s"</span>
-        <span style="color: #2aa1ae; background-color: #ecf3ec;">;;         </span><span style="color: #2aa1ae; background-color: #ecf3ec;">(format-time-string "%Y-%m-%d %H:%M")</span>
-        <span style="color: #2aa1ae; background-color: #ecf3ec;">;;         </span><span style="color: #2aa1ae; background-color: #ecf3ec;">ab9986-tommyjob-buffername)</span>
+        (message <span style="color: #2d9574;">"%s close  buffer %s"</span>
+                 (format-time-string <span style="color: #2d9574;">"%Y-%m-%d %H:%M"</span>)
+                 ab9986-tommyjob-buffername)
         (<span style="color: #3a81c3; font-weight: bold;">with-current-buffer</span> buffer
           (save-buffer))
         (kill-buffer buffer)
@@ -1071,15 +1140,15 @@ window.onload=mobilecss;</script>
                ab9986-close-tommjob-time)
       (cancel-timer ab9986-close-tommjob-time)
       (<span style="color: #3a81c3; font-weight: bold;">setq</span> ab9986-close-tommjob-time nil))))
-<span style="color: #2aa1ae; background-color: #ecf3ec;">;;</span><span style="color: #2aa1ae; background-color: #ecf3ec;">&#27599;&#38548;20&#20998;&#38047;,&#26816;&#27979;&#26159;&#21542;&#20851;&#38381;tommyjob.org.cpt&#30340;buffer</span>
+<span style="color: #2aa1ae; background-color: #ecf3ec;">;;</span><span style="color: #2aa1ae; background-color: #ecf3ec;">&#27599;&#38548;30&#20998;&#38047;,&#26816;&#27979;&#26159;&#21542;&#20851;&#38381;tommyjob.org.cpt&#30340;buffer</span>
 (add-hook 'org-mode-hook
           (<span style="color: #3a81c3; font-weight: bold;">lambda</span> ()
             (<span style="color: #3a81c3; font-weight: bold;">if</span> (get-buffer ab9986-tommyjob-buffername)
                 (<span style="color: #3a81c3; font-weight: bold;">when</span> (not ab9986-close-tommjob-time)
-                  <span style="color: #2aa1ae; background-color: #ecf3ec;">;;</span><span style="color: #2aa1ae; background-color: #ecf3ec;">(message "%s open  buffer %s"</span>
-                  <span style="color: #2aa1ae; background-color: #ecf3ec;">;;         </span><span style="color: #2aa1ae; background-color: #ecf3ec;">(format-time-string "%Y-%m-%d %H:%M")</span>
-                  <span style="color: #2aa1ae; background-color: #ecf3ec;">;;         </span><span style="color: #2aa1ae; background-color: #ecf3ec;">ab9986-tommyjob-buffername)</span>
-                  (<span style="color: #3a81c3; font-weight: bold;">setq</span> ab9986-close-tommjob-time (run-with-timer 1200 1200 'ab9986-close-tommyjob-when-not-current)))
+                  (message <span style="color: #2d9574;">"%s open  buffer %s"</span>
+                           (format-time-string <span style="color: #2d9574;">"%Y-%m-%d %H:%M"</span>)
+                           ab9986-tommyjob-buffername)
+                  (<span style="color: #3a81c3; font-weight: bold;">setq</span> ab9986-close-tommjob-time (run-with-timer 1800 1800 'ab9986-close-tommyjob-when-not-current)))
               (<span style="color: #3a81c3; font-weight: bold;">when</span> ab9986-close-tommjob-time
                 (cancel-timer ab9986-close-tommjob-time)
                 (<span style="color: #3a81c3; font-weight: bold;">setq</span> ab9986-close-tommjob-time nil)))))
@@ -1098,13 +1167,13 @@ window.onload=mobilecss;</script>
 </div>
 </div>
 </div>
-<div id="outline-container-org154baeb" class="outline-2">
-<h2 id="org154baeb">自定义脚本</h2>
-<div class="outline-text-2" id="text-org154baeb">
+<div id="outline-container-org5d39afe" class="outline-2">
+<h2 id="org5d39afe">自定义脚本</h2>
+<div class="outline-text-2" id="text-org5d39afe">
 </div>
-<div id="outline-container-orgd6fc71b" class="outline-3">
-<h3 id="orgd6fc71b">激活upcase-region和downcase-region</h3>
-<div class="outline-text-3" id="text-orgd6fc71b">
+<div id="outline-container-org74f1a23" class="outline-3">
+<h3 id="org74f1a23">激活upcase-region和downcase-region</h3>
+<div class="outline-text-3" id="text-org74f1a23">
 <div class="org-src-container">
 <pre class="src src-emacs-lisp">(put 'upcase-region 'disabled nil) 
 (put 'downcase-region 'disabled nil) 
@@ -1112,9 +1181,9 @@ window.onload=mobilecss;</script>
 </div>
 </div>
 </div>
-<div id="outline-container-org98e0aae" class="outline-3">
-<h3 id="org98e0aae">加密</h3>
-<div class="outline-text-3" id="text-org98e0aae">
+<div id="outline-container-orgddd0dd1" class="outline-3">
+<h3 id="orgddd0dd1">加密</h3>
+<div class="outline-text-3" id="text-orgddd0dd1">
 <div class="org-src-container">
 <pre class="src src-emacs-lisp">(<span style="color: #3a81c3; font-weight: bold;">defun</span> <span style="color: #6c3163; font-weight: bold;">ab9986-encrypt</span> (password)
   (<span style="color: #3a81c3; font-weight: bold;">let</span> ((password (regexp-quote (md5 password))))
@@ -1130,13 +1199,13 @@ window.onload=mobilecss;</script>
 </div>
 </div>
 </div>
-<div id="outline-container-org901b912" class="outline-3">
-<h3 id="org901b912">解压与压缩</h3>
-<div class="outline-text-3" id="text-org901b912">
+<div id="outline-container-org5575a8c" class="outline-3">
+<h3 id="org5575a8c">解压与压缩</h3>
+<div class="outline-text-3" id="text-org5575a8c">
 </div>
-<div id="outline-container-org5f0741f" class="outline-4">
-<h4 id="org5f0741f">删除指定文件夹的7z压缩包</h4>
-<div class="outline-text-4" id="text-org5f0741f">
+<div id="outline-container-orgea02c15" class="outline-4">
+<h4 id="orgea02c15">删除指定文件夹的7z压缩包</h4>
+<div class="outline-text-4" id="text-orgea02c15">
 <div class="org-src-container">
 <pre class="src src-emacs-lisp">(<span style="color: #3a81c3; font-weight: bold;">defun</span> <span style="color: #6c3163; font-weight: bold;">ab9986-delete7zfile</span> (dir)
   (mapcar #'(lambda (filename)
@@ -1147,9 +1216,9 @@ window.onload=mobilecss;</script>
 </div>
 </div>
 
-<div id="outline-container-org08d2e85" class="outline-4">
-<h4 id="org08d2e85">压缩指定目录文件夹</h4>
-<div class="outline-text-4" id="text-org08d2e85">
+<div id="outline-container-org9e0a78d" class="outline-4">
+<h4 id="org9e0a78d">压缩指定目录文件夹</h4>
+<div class="outline-text-4" id="text-org9e0a78d">
 <div class="org-src-container">
 <pre class="src src-emacs-lisp">(<span style="color: #3a81c3; font-weight: bold;">defun</span> <span style="color: #6c3163; font-weight: bold;">ab9986-7zdir</span> (dir todir suffix encryption <span style="color: #ba2f59; font-weight: bold;">&amp;optional</span> password)
   (mapcar #'(lambda (filename)
@@ -1187,9 +1256,9 @@ window.onload=mobilecss;</script>
 </div>
 </div>
 
-<div id="outline-container-org659cc2c" class="outline-4">
-<h4 id="org659cc2c">压缩指定目录文件夹</h4>
-<div class="outline-text-4" id="text-org659cc2c">
+<div id="outline-container-org1b89310" class="outline-4">
+<h4 id="org1b89310">压缩指定目录文件夹</h4>
+<div class="outline-text-4" id="text-org1b89310">
 <div class="org-src-container">
 <pre class="src src-emacs-lisp">(<span style="color: #3a81c3; font-weight: bold;">defun</span> <span style="color: #6c3163; font-weight: bold;">ab9986-7zfile</span> (dir todir encryption <span style="color: #ba2f59; font-weight: bold;">&amp;optional</span> password)
   (mapcar #'(lambda (filename)
@@ -1216,9 +1285,9 @@ window.onload=mobilecss;</script>
 </div>
 </div>
 </div>
-<div id="outline-container-org8ec3b69" class="outline-4">
-<h4 id="org8ec3b69">解压指定目录文件夹</h4>
-<div class="outline-text-4" id="text-org8ec3b69">
+<div id="outline-container-org6c99a63" class="outline-4">
+<h4 id="org6c99a63">解压指定目录文件夹</h4>
+<div class="outline-text-4" id="text-org6c99a63">
 <div class="org-src-container">
 <pre class="src src-emacs-lisp">(<span style="color: #3a81c3; font-weight: bold;">defun</span> <span style="color: #6c3163; font-weight: bold;">ab9986-un7zfile</span> (dir todir encryption <span style="color: #ba2f59; font-weight: bold;">&amp;optional</span> password)
   (mapcar #'(lambda (filename)
@@ -1234,9 +1303,9 @@ window.onload=mobilecss;</script>
 </div>
 </div>
 
-<div id="outline-container-orgfff0496" class="outline-4">
-<h4 id="orgfff0496">解压文件</h4>
-<div class="outline-text-4" id="text-orgfff0496">
+<div id="outline-container-orgaf44688" class="outline-4">
+<h4 id="orgaf44688">解压文件</h4>
+<div class="outline-text-4" id="text-orgaf44688">
 <div class="org-src-container">
 <pre class="src src-emacs-lisp">(<span style="color: #3a81c3; font-weight: bold;">defun</span> <span style="color: #6c3163; font-weight: bold;">ab9986-un7z</span> (filename todir encryption <span style="color: #ba2f59; font-weight: bold;">&amp;optional</span> password)
   (<span style="color: #3a81c3; font-weight: bold;">if</span> (not encryption)
@@ -1248,9 +1317,9 @@ window.onload=mobilecss;</script>
 </div>
 </div>
 </div>
-<div id="outline-container-org974715c" class="outline-4">
-<h4 id="org974715c">压缩文件</h4>
-<div class="outline-text-4" id="text-org974715c">
+<div id="outline-container-org0a81829" class="outline-4">
+<h4 id="org0a81829">压缩文件</h4>
+<div class="outline-text-4" id="text-org0a81829">
 <div class="org-src-container">
 <pre class="src src-emacs-lisp">(<span style="color: #3a81c3; font-weight: bold;">defun</span> <span style="color: #6c3163; font-weight: bold;">ab9986-7z</span> (filename 7zfilename encryption <span style="color: #ba2f59; font-weight: bold;">&amp;optional</span>
                            password)
@@ -1264,9 +1333,9 @@ window.onload=mobilecss;</script>
 </div>
 </div>
 </div>
-<div id="outline-container-org6332058" class="outline-4">
-<h4 id="org6332058">压缩文件-自释放</h4>
-<div class="outline-text-4" id="text-org6332058">
+<div id="outline-container-org2a9c4f5" class="outline-4">
+<h4 id="org2a9c4f5">压缩文件-自释放</h4>
+<div class="outline-text-4" id="text-org2a9c4f5">
 <div class="org-src-container">
 <pre class="src src-emacs-lisp">(<span style="color: #3a81c3; font-weight: bold;">defun</span> <span style="color: #6c3163; font-weight: bold;">ab9986-7zexe</span> (filename 7zfilename encryption <span style="color: #ba2f59; font-weight: bold;">&amp;optional</span>
                               password)
@@ -1281,9 +1350,9 @@ window.onload=mobilecss;</script>
 </div>
 </div>
 </div>
-<div id="outline-container-orgceb747f" class="outline-3">
-<h3 id="orgceb747f">删除emacs-config.el</h3>
-<div class="outline-text-3" id="text-orgceb747f">
+<div id="outline-container-orge8e3abe" class="outline-3">
+<h3 id="orge8e3abe">删除emacs-config.el</h3>
+<div class="outline-text-3" id="text-orge8e3abe">
 <div class="org-src-container">
 <pre class="src src-emacs-lisp">(<span style="color: #3a81c3; font-weight: bold;">defun</span> <span style="color: #6c3163; font-weight: bold;">ab9986-update-emacs-config-el</span> ()
   (<span style="color: #3a81c3; font-weight: bold;">when</span> (file-exists-p emacs-config-el-path)
@@ -1296,9 +1365,9 @@ window.onload=mobilecss;</script>
 </div>
 </div>
 
-<div id="outline-container-orgeaa1c98" class="outline-3">
-<h3 id="orgeaa1c98">指定自定义配置</h3>
-<div class="outline-text-3" id="text-orgeaa1c98">
+<div id="outline-container-org5831394" class="outline-3">
+<h3 id="org5831394">指定自定义配置</h3>
+<div class="outline-text-3" id="text-org5831394">
 <div class="org-src-container">
 <pre class="src src-emacs-lisp">(<span style="color: #3a81c3; font-weight: bold;">setq</span> custom-file (expand-file-name <span style="color: #2d9574;">"custom.el"</span> user-emacs-directory))
 (<span style="color: #3a81c3; font-weight: bold;">when</span> (file-exists-p custom-file)
@@ -1306,9 +1375,9 @@ window.onload=mobilecss;</script>
 </pre>
 </div>
 </div>
-<div id="outline-container-orgee8f836" class="outline-4">
-<h4 id="orgee8f836">自定义脚本用法</h4>
-<div class="outline-text-4" id="text-orgee8f836">
+<div id="outline-container-org6512ada" class="outline-4">
+<h4 id="org6512ada">自定义脚本用法</h4>
+<div class="outline-text-4" id="text-org6512ada">
 <p>
 可以在custom.el中添加<br />
 (setq ab9986-first-dir "Y:")<br />
@@ -1318,9 +1387,9 @@ window.onload=mobilecss;</script>
 </div>
 </div>
 
-<div id="outline-container-orgf0488dc" class="outline-2">
-<h2 id="orgf0488dc">结尾</h2>
-<div class="outline-text-2" id="text-orgf0488dc">
+<div id="outline-container-org0a14e7e" class="outline-2">
+<h2 id="org0a14e7e">结尾</h2>
+<div class="outline-text-2" id="text-org0a14e7e">
 <p>
 增加emacs-config结尾语句<br />
 </p>
