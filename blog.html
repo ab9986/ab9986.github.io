@@ -20,17 +20,56 @@ window.onload=mobilecss;</script>
 <h2>&#30446;&#24405;</h2>
 <div id="text-table-of-contents">
 <ul>
-<li><a href="#org5ae9214">20200305-docker学习</a></li>
-<li><a href="#org31ac3ca">20190731-恰到好处</a></li>
-<li><a href="#orgd49e3f0">20190617-eclipse配置</a></li>
-<li><a href="#org571978e">20190608-emacs配置</a></li>
+<li><a href="#org470ce7a">20200407-emacs-dump思路</a></li>
+<li><a href="#orgc5aad9b">20200305-docker学习</a></li>
+<li><a href="#org16e599f">20190731-恰到好处</a></li>
+<li><a href="#org567d906">20190617-eclipse配置</a></li>
+<li><a href="#org10c2251">20190608-emacs配置</a></li>
 </ul>
 </div>
 </div>
 
-<div id="outline-container-org5ae9214" class="outline-2">
-<h2 id="org5ae9214">20200305-docker学习</h2>
-<div class="outline-text-2" id="text-org5ae9214">
+<div id="outline-container-org470ce7a" class="outline-2">
+<h2 id="org470ce7a">20200407-emacs-dump思路</h2>
+<div class="outline-text-2" id="text-org470ce7a">
+<p>
+利用周末的时间，将自己配置转成支持dump,我的思路：<br />
+</p>
+<ol class="org-ol">
+<li>dump我理解本质上预加载模式。<br /></li>
+<li>我将我的emacs配置分为两个部分：第一部分是可预加载配置；第二部分，不可以预加载配置。<br /></li>
+<li>dump启动时，先用将可预加载配置生成dump，启动后执行不能预加载emacs配置。<br /></li>
+<li>正常启动时，先执行可预emacs加载配置，在执行不能预加载emacs配置。<br /></li>
+</ol>
+
+<p>
+我经验：<br />
+</p>
+<ol class="org-ol">
+<li>可预加载配置不要去加载主题（包括字体）配置，把主题（包括字体）配置放在不能预加载emacs配置，省去很多麻烦。<br /></li>
+<li>srefactor包,不可以进行预加载。<br /></li>
+<li><p>
+大部分软件包都是可以预加载，我没有可以预加载：如下<br />
+</p>
+<pre class="example">
+(dired-recent-mode t)
+(desktop-save-mode t)
+(savehist-mode t)
+(recentf-mode t)   
+(ivy-mode t)
+(counsel-mode t)
+(ivy-rich-mode t)
+pyim 
+</pre></li>
+<li>dump在windows 10上基本是可以秒开，建议上dump，带来收益远大于配置变动导致各种问题。<br /></li>
+<li>其他可以参考casouri博客：<a href="https://archive.casouri.cat/note/2020/painless-transition-to-portable-dumper/index.html">https://archive.casouri.cat/note/2020/painless-transition-to-portable-dumper/index.html</a><br /></li>
+<li>参考：<a href="https://emacs-china.org/t/portable-dumper/11584/48">https://emacs-china.org/t/portable-dumper/11584/48</a><br /></li>
+</ol>
+</div>
+</div>
+<div id="outline-container-orgc5aad9b" class="outline-2">
+<h2 id="orgc5aad9b">20200305-docker学习</h2>
+<div class="outline-text-2" id="text-orgc5aad9b">
 <ol class="org-ol">
 <li>windows 安装docker<br />
 最新版只要安装Docker Desktop Installer，参考<a href="https://docs.docker.com/docker-for-windows/install/">https://docs.docker.com/docker-for-windows/install/</a>。<br /></li>
@@ -128,9 +167,9 @@ chown -R tommy
 </p>
 </div>
 </div>
-<div id="outline-container-org31ac3ca" class="outline-2">
-<h2 id="org31ac3ca">20190731-恰到好处</h2>
-<div class="outline-text-2" id="text-org31ac3ca">
+<div id="outline-container-org16e599f" class="outline-2">
+<h2 id="org16e599f">20190731-恰到好处</h2>
+<div class="outline-text-2" id="text-org16e599f">
 <p>
 周五早上出差，回来时候，老婆跟我讲，小娃仔咳嗽厉害。当时想周四小娃仔还是好好的，所以想等今天晚上看看咳嗽情况再决定是否去医院。由于担心医院人多，所以预约明天10点钟儿科门诊。到晚上睡觉时，小娃仔咳得好像要把肺咳出来，一晚上醒醒睡睡，还一直要老婆抱着睡。小娃仔、老婆、我三人那天晚上困的不行。<br />
 </p>
@@ -185,13 +224,13 @@ chown -R tommy
 </div>
 </div>
 
-<div id="outline-container-orgd49e3f0" class="outline-2">
-<h2 id="orgd49e3f0">20190617-eclipse配置</h2>
-<div class="outline-text-2" id="text-orgd49e3f0">
+<div id="outline-container-org567d906" class="outline-2">
+<h2 id="org567d906">20190617-eclipse配置</h2>
+<div class="outline-text-2" id="text-org567d906">
 </div>
-<div id="outline-container-orgfb109c0" class="outline-3">
-<h3 id="orgfb109c0">eclipse配置导出导入方案</h3>
-<div class="outline-text-3" id="text-orgfb109c0">
+<div id="outline-container-org617f3d6" class="outline-3">
+<h3 id="org617f3d6">eclipse配置导出导入方案</h3>
+<div class="outline-text-3" id="text-org617f3d6">
 <p>
 If you want preserve all your settings, simply copy the<br />
 </p>
@@ -238,9 +277,9 @@ When Eclipse restarts in the new workspace select File-&gt;Import then General-&
 </div>
 </div>
 
-<div id="outline-container-orge538d28" class="outline-3">
-<h3 id="orge538d28">emacs+</h3>
-<div class="outline-text-3" id="text-orge538d28">
+<div id="outline-container-org407d164" class="outline-3">
+<h3 id="org407d164">emacs+</h3>
+<div class="outline-text-3" id="text-org407d164">
 <p>
 搜索时，不支持中文，建议小白不要安装，大神可以尝鲜。<br />
 eclipse的emacs按键插件：<br />
@@ -248,16 +287,16 @@ eclipse的emacs按键插件：<br />
 </p>
 </div>
 <ul class="org-ul">
-<li><a id="org1c3ac14"></a>编译方法<br />
-<div class="outline-text-5" id="text-org1c3ac14">
+<li><a id="orgc8f6a26"></a>编译方法<br />
+<div class="outline-text-5" id="text-orgc8f6a26">
 <ol class="org-ol">
 <li>导入Emacs+、Emacs+Feature、Emacs+OptionalBindings、Emacs+OptionalFeature、Emacs+Update<br /></li>
 <li>单击工程Emacs+Update，右键导出Plug-in Development-【Deployable features】或【Deployable plug-ins and fragments】<br /></li>
 </ol>
 </div>
 </li>
-<li><a id="orgca63830"></a>安装方法<br />
-<div class="outline-text-5" id="text-orgca63830">
+<li><a id="org9e8dbd6"></a>安装方法<br />
+<div class="outline-text-5" id="text-org9e8dbd6">
 <p>
 Window-&gt;Preferences-&gt;General-&gt;Keys-&gt;Scheme-&gt;Emacs+ Scheme<br />
 将附件emacs+4.2中的plugins和features复制eclipse目录中。<br />
@@ -266,9 +305,9 @@ Window-&gt;Preferences-&gt;General-&gt;Keys-&gt;Scheme-&gt;Emacs+ Scheme<br />
 </li>
 </ul>
 </div>
-<div id="outline-container-orga6a726d" class="outline-3">
-<h3 id="orga6a726d">eclipse-color-theme</h3>
-<div class="outline-text-3" id="text-orga6a726d">
+<div id="outline-container-org6c76058" class="outline-3">
+<h3 id="org6c76058">eclipse-color-theme</h3>
+<div class="outline-text-3" id="text-org6c76058">
 <p>
 <a href="https://github.com/eclipse-color-theme/eclipse-color-theme">https://github.com/eclipse-color-theme/eclipse-color-theme</a><br />
 安装方法：<br />
@@ -278,9 +317,9 @@ After installing, go to Window-&gt;Preferences-&gt;General-&gt;Appearance-&gt;Co
 </div>
 
 
-<div id="outline-container-org87989f9" class="outline-3">
-<h3 id="org87989f9">操作步骤</h3>
-<div class="outline-text-3" id="text-org87989f9">
+<div id="outline-container-orgf141c14" class="outline-3">
+<h3 id="orgf141c14">操作步骤</h3>
+<div class="outline-text-3" id="text-orgf141c14">
 <ol class="org-ol">
 <li>安装emacs+-尝鲜，建议不安装<br />
 将附件emacs+4.2中的plugins和features复制eclipse目录中。<br />
@@ -307,9 +346,9 @@ window --&gt; preferences --&gt; General --&gt; Startup and Shutdown 去除不�
 
 
 
-<div id="outline-container-orgcfe78c8" class="outline-3">
-<h3 id="orgcfe78c8">快捷键</h3>
-<div class="outline-text-3" id="text-orgcfe78c8">
+<div id="outline-container-orgcfcd8f6" class="outline-3">
+<h3 id="orgcfcd8f6">快捷键</h3>
+<div class="outline-text-3" id="text-orgcfcd8f6">
 <p>
 个人认为快捷键是体系问题。emacs与vi的快捷键是两个完全不同体系，其中优缺点网络上争论很多。我个人是偏向emacs的快捷键体系，所以将eclipse也按照eamcs快捷体系进行设置，如下：<br />
 </p>
@@ -463,9 +502,9 @@ window --&gt; preferences --&gt; General --&gt; Startup and Shutdown 去除不�
 
 
 
-<div id="outline-container-org8d37546" class="outline-3">
-<h3 id="org8d37546">窗口布局</h3>
-<div class="outline-text-3" id="text-org8d37546">
+<div id="outline-container-org4b1b8e2" class="outline-3">
+<h3 id="org4b1b8e2">窗口布局</h3>
+<div class="outline-text-3" id="text-org4b1b8e2">
 <p>
 分为两个窗口：主窗口和从窗口，在编程时，最好能够双屏。<br />
 </p>
@@ -477,13 +516,13 @@ window --&gt; preferences --&gt; General --&gt; Startup and Shutdown 去除不�
 </div>
 </div>
 
-<div id="outline-container-org43c9ccf" class="outline-3">
-<h3 id="org43c9ccf">常见问题</h3>
-<div class="outline-text-3" id="text-org43c9ccf">
+<div id="outline-container-orgf39c3f1" class="outline-3">
+<h3 id="orgf39c3f1">常见问题</h3>
+<div class="outline-text-3" id="text-orgf39c3f1">
 </div>
 <ul class="org-ul">
-<li><a id="org5abe911"></a>m2e-wtp error: &lt;path&gt;/target/m2e-wtp/web-resources/META-INF/MANIFEST.MF (No such file or directory)<br />
-<div class="outline-text-5" id="text-org5abe911">
+<li><a id="orgfaf33d8"></a>m2e-wtp error: &lt;path&gt;/target/m2e-wtp/web-resources/META-INF/MANIFEST.MF (No such file or directory)<br />
+<div class="outline-text-5" id="text-orgfaf33d8">
 <p>
 解决方法：<br />
 </p>
@@ -505,9 +544,9 @@ window --&gt; preferences --&gt; General --&gt; Startup and Shutdown 去除不�
 
 
 
-<div id="outline-container-orga10b08e" class="outline-3">
-<h3 id="orga10b08e">阿里巴巴Java开发手册</h3>
-<div class="outline-text-3" id="text-orga10b08e">
+<div id="outline-container-org866d40a" class="outline-3">
+<h3 id="org866d40a">阿里巴巴Java开发手册</h3>
+<div class="outline-text-3" id="text-org866d40a">
 <p>
 <a href="https://github.com/alibaba/p3c/">https://github.com/alibaba/p3c/</a><br />
 </p>
@@ -515,9 +554,9 @@ window --&gt; preferences --&gt; General --&gt; Startup and Shutdown 去除不�
 </div>
 
 
-<div id="outline-container-org9d0ab91" class="outline-3">
-<h3 id="org9d0ab91">不可见字符设置</h3>
-<div class="outline-text-3" id="text-org9d0ab91">
+<div id="outline-container-org8f5ff2e" class="outline-3">
+<h3 id="org8f5ff2e">不可见字符设置</h3>
+<div class="outline-text-3" id="text-org8f5ff2e">
 <p>
 General-Editors-Text Editors g<br />
 </p>
@@ -532,9 +571,9 @@ Insert spaces for tabs 勾选<br /></li>
 </div>
 
 
-<div id="outline-container-org571978e" class="outline-2">
-<h2 id="org571978e">20190608-emacs配置</h2>
-<div class="outline-text-2" id="text-org571978e">
+<div id="outline-container-org10c2251" class="outline-2">
+<h2 id="org10c2251">20190608-emacs配置</h2>
+<div class="outline-text-2" id="text-org10c2251">
 <p>
 我对文学编程比较着迷，看到几个大神都将自己的 emacs 配置都改成用 org-mode 来管理。大家可以参考 <a href="https://ab9986.github.io/emacs-config.html">https://ab9986.github.io/emacs-config.html</a> <br />
 </p>
