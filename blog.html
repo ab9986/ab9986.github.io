@@ -20,18 +20,148 @@ window.onload=mobilecss;</script>
 <h2>&#30446;&#24405;</h2>
 <div id="text-table-of-contents">
 <ul>
-<li><a href="#org470ce7a">20200407-emacs-dump思路</a></li>
-<li><a href="#orgc5aad9b">20200305-docker学习</a></li>
-<li><a href="#org16e599f">20190731-恰到好处</a></li>
-<li><a href="#org567d906">20190617-eclipse配置</a></li>
-<li><a href="#org10c2251">20190608-emacs配置</a></li>
+<li><a href="#org5c15a1f">20200610-emacs-coding-system经验之谈</a></li>
+<li><a href="#orgff0bada">20200513-rime配置</a></li>
+<li><a href="#orgeaeb391">20200407-emacs-dump思路</a></li>
+<li><a href="#org2d9ddb4">20200305-docker学习</a></li>
+<li><a href="#org332b938">20190731-恰到好处</a></li>
+<li><a href="#org5c5e1e6">20190617-eclipse配置</a></li>
+<li><a href="#orgced7158">20190608-emacs配置</a></li>
 </ul>
 </div>
 </div>
 
-<div id="outline-container-org470ce7a" class="outline-2">
-<h2 id="org470ce7a">20200407-emacs-dump思路</h2>
-<div class="outline-text-2" id="text-org470ce7a">
+<div id="outline-container-org5c15a1f" class="outline-2">
+<h2 id="org5c15a1f">20200610-emacs-coding-system经验之谈</h2>
+<div class="outline-text-2" id="text-org5c15a1f">
+<p>
+在windows使用emacs经常会遇到中文显示的问题，折腾很久，对中文显示问题有了一些经验。<br />
+我的emacs配置默认utf-8<br />
+</p>
+<ol class="org-ol">
+<li><p>
+如果遇到 %E6%B5%8B%E8%AF%95%E6%96%87%E4%BB%B6,可以尝试执行下面语句：<br />
+</p>
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">(decode-coding-string (dnd-unescape-uri <span style="color: #2d9574;">"%E6%B5%8B%E8%AF%95%E6%96%87%E4%BB%B6"</span>) 'utf-8)   
+</pre>
+</div>
+<p>
+执行结果："测试文件"<br />
+</p></li>
+<li><p>
+如果遇到\+数字，如下图：<br />
+<img src="20200610-例子1.png" alt="20200610-例子1.png" /><br />
+我一般临时改变一下coding-system，由utf-8变成gbk。等命令执行后，然后再将coding-system变为utf-8。<br />
+</p>
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">(<span style="color: #3a81c3; font-weight: bold;">let*</span> ((coding (prefer-coding-system 'gbk)))
+  (xx)
+  (prefer-coding-system 'utf-8))   
+</pre>
+</div></li>
+</ol>
+<p>
+在windwos使用emacs遇到与我一样的中文显示问题，可以尝试一下。<br />
+</p>
+</div>
+</div>
+
+<div id="outline-container-orgff0bada" class="outline-2">
+<h2 id="orgff0bada">20200513-rime配置</h2>
+<div class="outline-text-2" id="text-orgff0bada">
+<p>
+参考资料：<br />
+<a href="https://github.com/rime/home/wiki/CustomizationGuide">https://github.com/rime/home/wiki/CustomizationGuide</a><br />
+<a href="https://github.com/ab9986/rime-sync/">https://github.com/ab9986/rime-sync/</a><br />
+</p>
+<ol class="org-ol">
+<li>patch补丁原理<br />
+luna_pinyin_simp.custom.yaml 给 build\luna_pinyin_simp.schema.yaml 打补丁<br />
+default.custom.yaml 给 default.yaml 打补丁<br />
+写在patch里面就可以打补丁<br /></li>
+<li><p>
+配置文件<br />
+;;C:\Users\用户名\AppData\Roaming\Rime\luna_pinyin_simp.custom.yaml<br />
+</p>
+<pre class="example">
+patch:
+  ;;使用全套西文標點
+  ;;有些用戶習慣在中文裏使用ASCII標點，那麼與其一個一個覆寫，不如 整套都換掉 。
+  ;;取得這份設定檔—— Rime 別樣設定，使用西文標點 在用戶資料夾保存爲 alternative.yaml ；
+  ;;再將輸入方案中的「導入 default 設定」通過打 patch 替換爲「導入 alternative 設定」
+  ;;# luna_pinyin.custom.yaml
+  ;;patch:
+  ;;屏蔽默认按键绑定的
+  key_binder/import_preset: 
+  ;;只绑定+ - 方向键-向上 方向键-向下
+  key_binder/bindings:
+    - {accept: minus, send: Page_Up, when: has_menu}
+    - {accept: equal, send: Page_Down, when: has_menu}
+    - {accept: comma, send: Page_Up, when: paging}
+    - {accept: period, send: Page_Down, when: has_menu}
+  ;;默认为进入应用默认英文
+  switches/@ascii_mode/reset: 1
+  ;;状态栏位显示图标
+  style/display_tray_icon: true
+</pre>
+<p>
+;;C:\Users\用户名\AppData\Roaming\Rime\default.custom.yaml 在patch:增加<br />
+</p>
+<pre class="example">
+ ;;增加按shift返回英文
+ascii_composer/switch_key/Shift_L: commit_code
+ascii_composer/switch_key/Shift_R: commit_code
+;;状态通知始终显示
+show_notifications_when: always
+</pre></li>
+
+<li>词库，参考<a href="https://www.jianshu.com/p/300bbe1602d4">https://www.jianshu.com/p/300bbe1602d4</a> <br />
+<ol class="org-ol">
+<li><p>
+新建 简化字自定义配置文件 luna_pinyin_simp.custom.yaml 输入内容<br />
+(自定义配置文件名字格式: 简化字名称.custom.yaml)<br />
+</p>
+<pre class="example">
+# luna_pinyin_simp.custom.yaml
+patch:
+# 指定自定义词库位置
+  "translator/dictionary": luna_pinyin.my
+</pre></li>
+<li><p>
+新建luna_pinyin.my.dict.yaml (文件名和上面指定词库位置保持一致)输入内容<br />
+(词典名字格式: 名称.dict.yaml)<br />
+</p>
+<pre class="example">
+---
+name: luna_pinyin.my
+version: "1.0"
+sort: by_weight
+use_preset_vocabulary: true
+# 此处为扩充词库（基本）默认链接载入的词库
+import_tables:
+  - luna_pinyin
+...
+# 自定义词语
+英雄联盟    ying xiong leng meng    100
+吃鸡联盟    chi ji lian meng    100
+</pre></li>
+</ol></li>
+<li><p>
+个人词库配置<br />
+在installation.yaml中增加,然后放到C:\Users\用户名\AppData\Roaming\Rime\，重新部署，右键-用户资料同步。<br />
+</p>
+<pre class="example">
+installation_id: "ab9986"
+sync_dir: D:\ab9986\home\rime-sync   
+</pre></li>
+</ol>
+</div>
+</div>
+
+<div id="outline-container-orgeaeb391" class="outline-2">
+<h2 id="orgeaeb391">20200407-emacs-dump思路</h2>
+<div class="outline-text-2" id="text-orgeaeb391">
 <p>
 利用周末的时间，将自己配置转成支持dump,我的思路：<br />
 </p>
@@ -67,9 +197,9 @@ pyim
 </ol>
 </div>
 </div>
-<div id="outline-container-orgc5aad9b" class="outline-2">
-<h2 id="orgc5aad9b">20200305-docker学习</h2>
-<div class="outline-text-2" id="text-orgc5aad9b">
+<div id="outline-container-org2d9ddb4" class="outline-2">
+<h2 id="org2d9ddb4">20200305-docker学习</h2>
+<div class="outline-text-2" id="text-org2d9ddb4">
 <ol class="org-ol">
 <li>windows 安装docker<br />
 最新版只要安装Docker Desktop Installer，参考<a href="https://docs.docker.com/docker-for-windows/install/">https://docs.docker.com/docker-for-windows/install/</a>。<br /></li>
@@ -167,9 +297,9 @@ chown -R tommy
 </p>
 </div>
 </div>
-<div id="outline-container-org16e599f" class="outline-2">
-<h2 id="org16e599f">20190731-恰到好处</h2>
-<div class="outline-text-2" id="text-org16e599f">
+<div id="outline-container-org332b938" class="outline-2">
+<h2 id="org332b938">20190731-恰到好处</h2>
+<div class="outline-text-2" id="text-org332b938">
 <p>
 周五早上出差，回来时候，老婆跟我讲，小娃仔咳嗽厉害。当时想周四小娃仔还是好好的，所以想等今天晚上看看咳嗽情况再决定是否去医院。由于担心医院人多，所以预约明天10点钟儿科门诊。到晚上睡觉时，小娃仔咳得好像要把肺咳出来，一晚上醒醒睡睡，还一直要老婆抱着睡。小娃仔、老婆、我三人那天晚上困的不行。<br />
 </p>
@@ -224,13 +354,13 @@ chown -R tommy
 </div>
 </div>
 
-<div id="outline-container-org567d906" class="outline-2">
-<h2 id="org567d906">20190617-eclipse配置</h2>
-<div class="outline-text-2" id="text-org567d906">
+<div id="outline-container-org5c5e1e6" class="outline-2">
+<h2 id="org5c5e1e6">20190617-eclipse配置</h2>
+<div class="outline-text-2" id="text-org5c5e1e6">
 </div>
-<div id="outline-container-org617f3d6" class="outline-3">
-<h3 id="org617f3d6">eclipse配置导出导入方案</h3>
-<div class="outline-text-3" id="text-org617f3d6">
+<div id="outline-container-org121fc8a" class="outline-3">
+<h3 id="org121fc8a">eclipse配置导出导入方案</h3>
+<div class="outline-text-3" id="text-org121fc8a">
 <p>
 If you want preserve all your settings, simply copy the<br />
 </p>
@@ -277,9 +407,9 @@ When Eclipse restarts in the new workspace select File-&gt;Import then General-&
 </div>
 </div>
 
-<div id="outline-container-org407d164" class="outline-3">
-<h3 id="org407d164">emacs+</h3>
-<div class="outline-text-3" id="text-org407d164">
+<div id="outline-container-org9740629" class="outline-3">
+<h3 id="org9740629">emacs+</h3>
+<div class="outline-text-3" id="text-org9740629">
 <p>
 搜索时，不支持中文，建议小白不要安装，大神可以尝鲜。<br />
 eclipse的emacs按键插件：<br />
@@ -287,16 +417,16 @@ eclipse的emacs按键插件：<br />
 </p>
 </div>
 <ul class="org-ul">
-<li><a id="orgc8f6a26"></a>编译方法<br />
-<div class="outline-text-5" id="text-orgc8f6a26">
+<li><a id="orge2f2484"></a>编译方法<br />
+<div class="outline-text-5" id="text-orge2f2484">
 <ol class="org-ol">
 <li>导入Emacs+、Emacs+Feature、Emacs+OptionalBindings、Emacs+OptionalFeature、Emacs+Update<br /></li>
 <li>单击工程Emacs+Update，右键导出Plug-in Development-【Deployable features】或【Deployable plug-ins and fragments】<br /></li>
 </ol>
 </div>
 </li>
-<li><a id="org9e8dbd6"></a>安装方法<br />
-<div class="outline-text-5" id="text-org9e8dbd6">
+<li><a id="org066c092"></a>安装方法<br />
+<div class="outline-text-5" id="text-org066c092">
 <p>
 Window-&gt;Preferences-&gt;General-&gt;Keys-&gt;Scheme-&gt;Emacs+ Scheme<br />
 将附件emacs+4.2中的plugins和features复制eclipse目录中。<br />
@@ -305,9 +435,9 @@ Window-&gt;Preferences-&gt;General-&gt;Keys-&gt;Scheme-&gt;Emacs+ Scheme<br />
 </li>
 </ul>
 </div>
-<div id="outline-container-org6c76058" class="outline-3">
-<h3 id="org6c76058">eclipse-color-theme</h3>
-<div class="outline-text-3" id="text-org6c76058">
+<div id="outline-container-org534477f" class="outline-3">
+<h3 id="org534477f">eclipse-color-theme</h3>
+<div class="outline-text-3" id="text-org534477f">
 <p>
 <a href="https://github.com/eclipse-color-theme/eclipse-color-theme">https://github.com/eclipse-color-theme/eclipse-color-theme</a><br />
 安装方法：<br />
@@ -317,9 +447,9 @@ After installing, go to Window-&gt;Preferences-&gt;General-&gt;Appearance-&gt;Co
 </div>
 
 
-<div id="outline-container-orgf141c14" class="outline-3">
-<h3 id="orgf141c14">操作步骤</h3>
-<div class="outline-text-3" id="text-orgf141c14">
+<div id="outline-container-org8103e59" class="outline-3">
+<h3 id="org8103e59">操作步骤</h3>
+<div class="outline-text-3" id="text-org8103e59">
 <ol class="org-ol">
 <li>安装emacs+-尝鲜，建议不安装<br />
 将附件emacs+4.2中的plugins和features复制eclipse目录中。<br />
@@ -346,9 +476,9 @@ window --&gt; preferences --&gt; General --&gt; Startup and Shutdown 去除不�
 
 
 
-<div id="outline-container-orgcfcd8f6" class="outline-3">
-<h3 id="orgcfcd8f6">快捷键</h3>
-<div class="outline-text-3" id="text-orgcfcd8f6">
+<div id="outline-container-orgc863085" class="outline-3">
+<h3 id="orgc863085">快捷键</h3>
+<div class="outline-text-3" id="text-orgc863085">
 <p>
 个人认为快捷键是体系问题。emacs与vi的快捷键是两个完全不同体系，其中优缺点网络上争论很多。我个人是偏向emacs的快捷键体系，所以将eclipse也按照eamcs快捷体系进行设置，如下：<br />
 </p>
@@ -502,9 +632,9 @@ window --&gt; preferences --&gt; General --&gt; Startup and Shutdown 去除不�
 
 
 
-<div id="outline-container-org4b1b8e2" class="outline-3">
-<h3 id="org4b1b8e2">窗口布局</h3>
-<div class="outline-text-3" id="text-org4b1b8e2">
+<div id="outline-container-orgf98f741" class="outline-3">
+<h3 id="orgf98f741">窗口布局</h3>
+<div class="outline-text-3" id="text-orgf98f741">
 <p>
 分为两个窗口：主窗口和从窗口，在编程时，最好能够双屏。<br />
 </p>
@@ -516,13 +646,13 @@ window --&gt; preferences --&gt; General --&gt; Startup and Shutdown 去除不�
 </div>
 </div>
 
-<div id="outline-container-orgf39c3f1" class="outline-3">
-<h3 id="orgf39c3f1">常见问题</h3>
-<div class="outline-text-3" id="text-orgf39c3f1">
+<div id="outline-container-org04d4b15" class="outline-3">
+<h3 id="org04d4b15">常见问题</h3>
+<div class="outline-text-3" id="text-org04d4b15">
 </div>
 <ul class="org-ul">
-<li><a id="orgfaf33d8"></a>m2e-wtp error: &lt;path&gt;/target/m2e-wtp/web-resources/META-INF/MANIFEST.MF (No such file or directory)<br />
-<div class="outline-text-5" id="text-orgfaf33d8">
+<li><a id="orga552112"></a>m2e-wtp error: &lt;path&gt;/target/m2e-wtp/web-resources/META-INF/MANIFEST.MF (No such file or directory)<br />
+<div class="outline-text-5" id="text-orga552112">
 <p>
 解决方法：<br />
 </p>
@@ -544,9 +674,9 @@ window --&gt; preferences --&gt; General --&gt; Startup and Shutdown 去除不�
 
 
 
-<div id="outline-container-org866d40a" class="outline-3">
-<h3 id="org866d40a">阿里巴巴Java开发手册</h3>
-<div class="outline-text-3" id="text-org866d40a">
+<div id="outline-container-org618d304" class="outline-3">
+<h3 id="org618d304">阿里巴巴Java开发手册</h3>
+<div class="outline-text-3" id="text-org618d304">
 <p>
 <a href="https://github.com/alibaba/p3c/">https://github.com/alibaba/p3c/</a><br />
 </p>
@@ -554,9 +684,9 @@ window --&gt; preferences --&gt; General --&gt; Startup and Shutdown 去除不�
 </div>
 
 
-<div id="outline-container-org8f5ff2e" class="outline-3">
-<h3 id="org8f5ff2e">不可见字符设置</h3>
-<div class="outline-text-3" id="text-org8f5ff2e">
+<div id="outline-container-org5265ebe" class="outline-3">
+<h3 id="org5265ebe">不可见字符设置</h3>
+<div class="outline-text-3" id="text-org5265ebe">
 <p>
 General-Editors-Text Editors g<br />
 </p>
@@ -571,11 +701,11 @@ Insert spaces for tabs 勾选<br /></li>
 </div>
 
 
-<div id="outline-container-org10c2251" class="outline-2">
-<h2 id="org10c2251">20190608-emacs配置</h2>
-<div class="outline-text-2" id="text-org10c2251">
+<div id="outline-container-orgced7158" class="outline-2">
+<h2 id="orgced7158">20190608-emacs配置</h2>
+<div class="outline-text-2" id="text-orgced7158">
 <p>
-我对文学编程比较着迷，看到几个大神都将自己的 emacs 配置都改成用 org-mode 来管理。大家可以参考 <a href="https://ab9986.github.io/emacs-config.html">https://ab9986.github.io/emacs-config.html</a> <br />
+我对文学编程比较着迷，看到几个大神都将自己的 emacs 配置都改成用 org-mode 来管理，我的emacs 配置也用org-mode 来管理了，大家可以参考 <a href="https://ab9986.github.io/emacs-config.html">https://ab9986.github.io/emacs-config.html</a> <br />
 </p>
 </div>
 </div>
